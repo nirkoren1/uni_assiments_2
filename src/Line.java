@@ -3,6 +3,10 @@
 
 import java.util.Objects;
 
+/**
+ * class Line: line segment determent by two points.
+ * can calculate length, middle point, if two lines intersect and the point they intersect.
+ */
 public class Line {
     private Point start;
     private Point end;
@@ -12,51 +16,79 @@ public class Line {
     private Double smallY;
     private Double bigX;
     private Double smallX;
-
-    // constructors
+    /**
+     * constructor.
+     * @param start first point of the line segment
+     * @param end second point of the line segment
+     */
     public Line(Point start, Point end) {
         this.start = start;
         this.end = end;
         calculateArguments();
     }
+    /**
+     * constructor.
+     * @param x1 x value of the first point of the line segment
+     * @param y1 y value of the first point of the line segment
+     * @param x2 x value of the second point of the line segment
+     * @param y2 y value of the second point of the line segment
+     */
     public Line(double x1, double y1, double x2, double y2) {
         start = new Point(x1, y1);
         end = new Point(x2, y2);
         calculateArguments();
     }
-
+    /**
+     * calculate the slope and bias of the line, as well as the big, small y and x values.
+     * all are required for the intersection calculations.
+     */
     public void calculateArguments() {
         bigX = Math.max(start.getX(), end.getX());
         bigY = Math.max(start.getY(), end.getY());
         smallX = Math.min(start.getX(), end.getX());
         smallY = Math.min(start.getY(), end.getY());
-        if (start.getX() != end.getX()) {
+        if (start.getX() != end.getX()) {             // not parallel to y-axis
             m = (start.getY() - end.getY()) / (start.getX() - end.getX());
             b = start.getY() - m * start().getX();
         }
     }
 
-    // Return the length of the line
+    /**
+     * @return the distance between the start and end points of the line (length of the line segment)
+     */
     public double length() {
         return start.distance(end);
     }
-
-    // Returns the middle point of the line
+    /**
+     * @return middle Point of the line segment using average
+     */
     public Point middle() {
         return new Point((start.getX() + end().getX()) / 2, (start.getY() + end.getY()) / 2);
     }
-
-    // Returns the start point of the line
+    /**
+     * @return start point of the line
+     */
     public Point start() {
         return start;
     }
-
-    // Returns the end point of the line
+    /**
+     * @return end point of the line
+     */
     public Point end() {
         return end;
     }
-
-    // Returns true if the lines intersect, false otherwise
+    /**
+     * Returns true if the lines intersect, false otherwise.
+     * divide this problem to 6 different situations:
+     * 1) the two lines are parallel to y-axis
+     * 2) the first line is parallel to y-axis
+     * 3) the second line is parallel to y-axis
+     * 4) the two lines (rays) overlap
+     * 5) the two lines (rays) parallel but not overlap
+     * 6) the two lines (rays) cross somewhere - not the above
+     * the method calculate the intersection point of the two lines and checks if the point is in the two lines
+     * @param other the other line segment
+     */
     public boolean isIntersecting(Line other) {
         if (this.m == null && other.m == null) {
             if (this.start.getX() != other.start.getX()) {
@@ -108,7 +140,6 @@ public class Line {
         if (!Objects.equals(this.m, other.m) || !Objects.equals(this.b, other.b)) {
             return false;
         }
-        return (this.middle().equals(other.middle()) && this.start.distance(this.end)
-                == other.start.distance(other.end));
+        return (this.middle().equals(other.middle()) && this.length() == other.length());
     }
 }
