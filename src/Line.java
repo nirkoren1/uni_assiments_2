@@ -77,17 +77,21 @@ public class Line {
     public Point end() {
         return end;
     }
-    /**
+    /**<p>
      * Returns true if the lines intersect, false otherwise.
+     * </p><p>
      * divide this problem to 6 different situations:
      * 1) the two lines are parallel to y-axis
      * 2) the first line is parallel to y-axis
      * 3) the second line is parallel to y-axis
      * 4) the two lines (rays) overlap
      * 5) the two lines (rays) parallel but not overlap
-     * 6) the two lines (rays) cross somewhere - not the above
+     * 6) the two lines (rays) cross somewhere - not the above.
+     * </p><p>
      * the method calculate the intersection point of the two lines and checks if the point is in the two lines
-     * @param other the other line segment
+     * </p>
+     * @param other the other line segment.
+     * @return true if the lines intersect, false otherwise.
      */
     public boolean isIntersecting(Line other) {
         if (this.m == null && other.m == null) {
@@ -115,9 +119,14 @@ public class Line {
             return (this.smallX <= x && x <= this.bigX) && (other.smallX <= x && x <= other.bigX);
         }
     }
-
-    // Returns the intersection point if the lines intersect,
-    // and null otherwise.
+    /**
+     * Returns the intersection point if the lines intersect, and null otherwise.
+     * <p></p>
+     * if one of the lines is parallel to y-axis: y = m*x+b (x = some x value of the parallel line).
+     * else: x = (b1 - b2) / (m2 - m1) and y = m*x+b
+     * @param other the other line segment
+     * @return Point of the intersection, if not intersect - null
+     */
     public Point intersectionWith(Line other) {
         if (!this.isIntersecting(other)) {
             return null;
@@ -134,8 +143,12 @@ public class Line {
             return new Point(x, y);
         }
     }
-
-    // equals -- return true is the lines are equal, false otherwise
+    /**
+     * Returns true if the two line segments are the same, false if not.
+     * uses the middle point and the length of the lines
+     * @param other the other line segment
+     * @return true if the two line segments are the same, false if not.
+     */
     public boolean equals(Line other) {
         if (!Objects.equals(this.m, other.m) || !Objects.equals(this.b, other.b)) {
             return false;
