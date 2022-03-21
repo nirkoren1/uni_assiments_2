@@ -6,9 +6,6 @@
 public class Point {
     private final double x;
     private final double y;
-
-    // constructor
-
     /**
      * @param x - x value
      * @param y - y value
