@@ -15,8 +15,9 @@ public class AbstractArtDrawing {
 
     }
 
-    public void drawLineToSurface(DrawSurface sur) {
-
+    public void drawLineToSurface(DrawSurface sur, Line line) {
+        sur.drawLine((int) line.start().getX(), (int) line.start().getY(), (int) line.end().getX(),
+                (int) line.end().getY());
     }
 
     public void drawRandomLines() {
