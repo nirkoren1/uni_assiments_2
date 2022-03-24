@@ -21,6 +21,8 @@ public class AbstractArtDrawing {
     }
 
     public void drawRandomLines() {
+        GUI gui = new GUI("Random Circles Example", WIDTH, HEIGHT);
+        DrawSurface = gui.getDrawSurface();
 
     }
 
