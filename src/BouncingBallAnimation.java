@@ -25,5 +25,4 @@ public class BouncingBallAnimation {
         Point start = new Point(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
         BouncingBallAnimation.drawAnimation(start, Integer.parseInt(args[2]), Integer.parseInt(args[3]));
     }
-
 }
