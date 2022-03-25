@@ -8,9 +8,11 @@ public class Ball {
     private Color color = null;
     private Point center = new Point(0, 0);
     private Velocity velocity = new Velocity(0, 0);
-    public Ball(Point center, int r, java.awt.Color color) {
-        this.center.setX((int) center.getX());
-        this.center.setY((int) center.getY());
+    public Ball(Point center, int r, java.awt.Color color, int width, int height) {
+        int x = Math.min(Math.max((int) center.getX(), r), width - r);
+        int y = Math.min(Math.max((int) center.getY(), r), height - r);
+        this.center.setX(x);
+        this.center.setY(y);
         this.radius = r;
         this.color = color;
     }
@@ -36,8 +38,16 @@ public class Ball {
     public Velocity getVelocity() {
         return this.velocity;
     }
-    public void moveOneStep() {
+    public void moveOneStep(int width, int height) {
         this.center = this.getVelocity().applyToPoint(this.center);
+        if (this.getX() + this.velocity.getDx() + this.radius >= width
+                || this.getX() + this.velocity.getDx() <= this.radius) {
+            this.setVelocity(-this.velocity.getDx(), this.velocity.getDy());
+        }
+        if (this.getY() + this.velocity.getDy() + this.radius >= height
+                || this.getY() + this.velocity.getDy() <= this.radius) {
+            this.setVelocity(this.velocity.getDx(), -this.velocity.getDy());
+        }
     }
     // draw the ball on the given DrawSurface
     public void drawOn(DrawSurface surface) {
