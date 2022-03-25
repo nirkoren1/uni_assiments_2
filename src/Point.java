@@ -4,8 +4,8 @@
  * class point have x and y value, and can compare between two points and measure distance.
  */
 public class Point {
-    private final double x;
-    private final double y;
+    private double x;
+    private double y;
     /**
      * @param x - x value
      * @param y - y value
@@ -41,5 +41,13 @@ public class Point {
      */
     public double getY() {
         return this.y;
+    }
+
+    public void setX(double x) {
+        this.x = x;
+    }
+
+    public void setY(double y) {
+        this.y = y;
     }
 }
