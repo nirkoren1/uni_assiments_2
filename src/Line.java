@@ -137,6 +137,8 @@ public class Line {
         } else if (other.m == null) {
             double y = this.m * other.start.getX() + this.b;
             return new Point(other.start.getX(), y);
+        } else if (this.m.equals(other.m) && Objects.equals(this.b, other.b)) {
+            return null;
         } else {
             double x = (other.b - this.b) / (this.m - other.m);
             double y = this.m * x + this.b;

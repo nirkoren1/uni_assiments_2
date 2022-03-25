@@ -9,12 +9,12 @@ import java.awt.Color;
 public class AbstractArtDrawing {
     public static final int WIDTH = 400;
     public static final int HEIGHT  = 300;
-    public static final int NUMOFLINES  = 20;
+    public static final int NUMOFLINES  = 10;
     public static final int RADIUS  = 3;
 
     public Line createRandomLine() {
         Random rand = new Random();
-
+        return new Line(rand.nextInt(WIDTH), rand.nextInt(HEIGHT), rand.nextInt(WIDTH), rand.nextInt(HEIGHT));
     }
 
     public void drawLineToSurface(DrawSurface sur, Line line) {
@@ -25,11 +25,18 @@ public class AbstractArtDrawing {
     public void drawCircles(DrawSurface sur, Line[] lines) {
         for (int i = 0; i < NUMOFLINES; i++) {
             Point mid = lines[i].middle();
-            sur.drawCircle((int) mid.getX(), (int) mid.getY(), RADIUS);
+            sur.setColor(Color.BLUE);
+            sur.fillCircle((int) mid.getX(), (int) mid.getY(), RADIUS);
             for (int j = 0; j < NUMOFLINES; j++) {
                 if (j == i) {
                     continue;
                 }
+                Point intersection = lines[i].intersectionWith(lines[j]);
+                if (intersection == null) {
+                    continue;
+                }
+                sur.setColor(Color.RED);
+                sur.fillCircle((int) intersection.getX(), (int) intersection.getY(), RADIUS);
             }
         }
     };
@@ -42,6 +49,7 @@ public class AbstractArtDrawing {
             lines[i] = createRandomLine();
             drawLineToSurface(sur, lines[i]);
         }
+        drawCircles(sur, lines);
         gui.show(sur);
     }
 
