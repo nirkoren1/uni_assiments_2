@@ -42,7 +42,7 @@ public class AbstractArtDrawing {
     };
 
     public void drawRandomLines() {
-        GUI gui = new GUI("Random Circles Example", WIDTH, HEIGHT);
+        GUI gui = new GUI("Abstract Art Drawing", WIDTH, HEIGHT);
         DrawSurface sur = gui.getDrawSurface();
         Line[] lines = new Line[NUMOFLINES];
         for (int i = 0; i < NUMOFLINES; i++) {
