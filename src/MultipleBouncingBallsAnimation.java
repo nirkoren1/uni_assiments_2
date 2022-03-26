@@ -4,6 +4,7 @@ import biuoop.DrawSurface;
 import biuoop.GUI;
 import biuoop.Sleeper;
 
+import java.awt.*;
 import java.util.Random;
 
 public class MultipleBouncingBallsAnimation {
@@ -12,13 +13,18 @@ public class MultipleBouncingBallsAnimation {
     static Ball addBall(int size) {
         Random random = new Random();
         Point start = new Point(random.nextInt(WIDTH), random.nextInt(HEIGHT));
-        Ball ball = new Ball(start, size, java.awt.Color.BLACK, WIDTH, HEIGHT);
+        Ball ball = new Ball(start, size, getRandomColor(), WIDTH, HEIGHT);
         double speed = Math.max(-(size / 6.) + 10, -(50 / 6.) + 10);
         Velocity vel = Velocity.fromAngleAndSpeed(random.nextInt(360), speed);
         ball.setVelocity(vel.getDx(), vel.getDy());
         return ball;
     }
-    static private void drawAnimation(int[] ballsSizes, double dx, double dy) {
+    static Color getRandomColor() {
+        Random random = new Random();
+        Color[] colors = {Color.RED, Color.BLACK, Color.orange, Color.GREEN, Color.BLUE, Color.MAGENTA};
+        return colors[random.nextInt(colors.length)];
+    }
+    static private void drawAnimation(int[] ballsSizes) {
         GUI gui = new GUI("Bouncing Balls!", WIDTH, HEIGHT);
         Sleeper sleeper = new Sleeper();
         Ball[] balls = new Ball[ballsSizes.length];
@@ -37,7 +43,10 @@ public class MultipleBouncingBallsAnimation {
     }
 
     public static void main(String[] args) {
-        Point start = new Point(Integer.parseInt(args[0]), Integer.parseInt(args[1]));
-        MultipleBouncingBallsAnimation.drawAnimation(, Integer.parseInt(args[2]), Integer.parseInt(args[3]));
+        int[] sizes = new int[args.length];
+        for (int i = 0; i < args.length; i++) {
+            sizes[i] = Integer.parseInt(args[i]);
+        }
+        MultipleBouncingBallsAnimation.drawAnimation(sizes);
     }
 }
