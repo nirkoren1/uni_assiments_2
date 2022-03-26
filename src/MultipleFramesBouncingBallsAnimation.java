@@ -13,14 +13,8 @@ import java.util.Random;
  * this class contains the frames boundaries and the width and height of the window.
  */
 public class MultipleFramesBouncingBallsAnimation {
-    public static final int FRAME1XSTART = 50;
-    public static final int FRAME1YSTART = 50;
-    public static final int FRAME1XEND = 500;
-    public static final int FRAME1YEND = 500;
-    public static final int FRAME2XSTART = 450;
-    public static final int FRAME2YSTART = 450;
-    public static final int FRAME2XEND = 600;
-    public static final int FRAME2YEND = 600;
+    public static final Frame FRAME1 = new Frame(50, 50, 500, 500, Color.GRAY);
+    public static final Frame FRAME2 = new Frame(450, 450, 600, 600, Color.YELLOW);
     public static final int WIDTH = 600;
     public static final int HEIGHT = 600;
 
@@ -68,24 +62,24 @@ public class MultipleFramesBouncingBallsAnimation {
         Ball[] balls = new Ball[ballsSizes.length];
         for (int i = 0; i < ballsSizes.length; i++) {
             if (i < balls.length / 2) {
-                balls[i] = addBall(ballsSizes[balls.length / 2 - i - 1], FRAME1XSTART, FRAME1YSTART, FRAME1XEND,
-                        FRAME1YEND);
+                balls[i] = addBall(ballsSizes[balls.length / 2 - i - 1], FRAME1.getxStart(), FRAME1.getyStart(),
+                        FRAME1.getxEnd(), FRAME1.getyEnd());
                 continue;
             }
-            balls[i] = addBall(ballsSizes[balls.length / 2 - i - 1 + balls.length], FRAME2XSTART, FRAME2YSTART,
-                    FRAME2XEND, FRAME2YEND);
+            balls[i] = addBall(ballsSizes[balls.length / 2 - i - 1 + balls.length], FRAME2.getxStart(),
+                    FRAME2.getyStart(), FRAME2.getxEnd(), FRAME2.getyEnd());
         }
         while (true) {
             DrawSurface d = gui.getDrawSurface();
-            d.setColor(Color.GRAY);
-            d.fillRectangle(FRAME1XSTART, FRAME1YSTART, FRAME1XEND - FRAME1XSTART, FRAME1YEND - FRAME1YSTART);
-            d.setColor(Color.YELLOW);
-            d.fillRectangle(FRAME2XSTART, FRAME2YSTART, FRAME2XEND - FRAME2XSTART, FRAME2YEND - FRAME2YSTART);
+            FRAME1.drawON(d);
+            FRAME2.drawON(d);
             for (int i = 0; i < ballsSizes.length; i++) {
                 if (i < balls.length / 2) {
-                    balls[i].moveOneStep(FRAME1XSTART, FRAME1YSTART, FRAME1XEND, FRAME1YEND);  //first half
+                    balls[i].moveOneStep(FRAME1.getxStart(), FRAME1.getyStart(), FRAME1.getxEnd(),
+                            FRAME1.getyEnd());  //first half
                 } else {
-                    balls[i].moveOneStep(FRAME2XSTART, FRAME2YSTART, FRAME2XEND, FRAME2YEND);  //second half
+                    balls[i].moveOneStep(FRAME2.getxStart(), FRAME2.getyStart(), FRAME2.getxEnd(),
+                            FRAME2.getyEnd());  //second half
                 }
                 balls[i].drawOn(d);
             }
