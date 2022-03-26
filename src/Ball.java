@@ -8,9 +8,9 @@ public class Ball {
     private Color color = null;
     private Point center = new Point(0, 0);
     private Velocity velocity = new Velocity(0, 0);
-    public Ball(Point center, int r, java.awt.Color color, int width, int height) {
-        int x = Math.min(Math.max((int) center.getX(), r), width - r);
-        int y = Math.min(Math.max((int) center.getY(), r), height - r);
+    public Ball(Point center, int r, java.awt.Color color, int xStart, int yStart, int xEnd, int yEnd) {
+        int x = Math.min(Math.max((int) center.getX(), r + xStart), xEnd - r);
+        int y = Math.min(Math.max((int) center.getY(), r + yStart), yEnd - r);
         this.center.setX(x);
         this.center.setY(y);
         this.radius = r;
@@ -38,14 +38,14 @@ public class Ball {
     public Velocity getVelocity() {
         return this.velocity;
     }
-    public void moveOneStep(int width, int height) {
+    public void moveOneStep(int xStart, int yStart, int xEnd, int yEnd) {
         this.center = this.getVelocity().applyToPoint(this.center);
-        if (this.getX() + this.velocity.getDx() + this.radius >= width
-                || this.getX() + this.velocity.getDx() <= this.radius) {
+        if (this.getX() + this.velocity.getDx() + this.radius >= xEnd
+                || this.getX() + this.velocity.getDx() <= this.radius + xStart) {
             this.setVelocity(-this.velocity.getDx(), this.velocity.getDy());
         }
-        if (this.getY() + this.velocity.getDy() + this.radius >= height
-                || this.getY() + this.velocity.getDy() <= this.radius) {
+        if (this.getY() + this.velocity.getDy() + this.radius >= yEnd
+                || this.getY() + this.velocity.getDy() <= this.radius + yStart) {
             this.setVelocity(this.velocity.getDx(), -this.velocity.getDy());
         }
     }

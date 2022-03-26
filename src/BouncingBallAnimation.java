@@ -10,10 +10,10 @@ public class BouncingBallAnimation {
     static private void drawAnimation(Point start, double dx, double dy) {
         GUI gui = new GUI("Bouncing Ball!", WIDTH, HEIGHT);
         Sleeper sleeper = new Sleeper();
-        Ball ball = new Ball(start, 30, java.awt.Color.BLACK, WIDTH, HEIGHT);
+        Ball ball = new Ball(start, 30, java.awt.Color.BLACK, 0, 0, WIDTH, HEIGHT);
         ball.setVelocity(dx, dy);
         while (true) {
-            ball.moveOneStep(WIDTH, HEIGHT);
+            ball.moveOneStep(0, 0, WIDTH, HEIGHT);
             DrawSurface d = gui.getDrawSurface();
             ball.drawOn(d);
             gui.show(d);

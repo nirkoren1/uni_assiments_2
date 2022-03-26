@@ -23,14 +23,11 @@ public class AbstractArtDrawing {
     }
 
     public void drawCircles(DrawSurface sur, Line[] lines) {
-        for (int i = 0; i < NUMOFLINES; i++) {
+        for (int i = 0; i < NUMOFLINES - 1; i++) {
             Point mid = lines[i].middle();
             sur.setColor(Color.BLUE);
             sur.fillCircle((int) mid.getX(), (int) mid.getY(), RADIUS);
-            for (int j = 0; j < NUMOFLINES; j++) {
-                if (j == i) {
-                    continue;
-                }
+            for (int j = i + 1; j < NUMOFLINES; j++) {
                 Point intersection = lines[i].intersectionWith(lines[j]);
                 if (intersection == null) {
                     continue;
