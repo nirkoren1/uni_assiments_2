@@ -1,6 +1,7 @@
 // Nir Koren 316443902
 
 
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -156,5 +157,22 @@ public class Line {
             return false;
         }
         return (this.middle().equals(other.middle()) && this.length() == other.length());
+    }
+
+    /**
+     * returns the closet intersection Point to the start of the line.
+     * if not intersecting, returns null.
+     * @param rect Rectangle
+     * @return Point of the closet intersection
+     */
+    public Point closestIntersectionToStartOfLine(Rectangle rect) {
+        List<Point> points = (rect.intersectionPoints(this));
+        if (points.size() == 0) {
+            return null;
+        }
+        if (points.size() == 1) {
+            return points.get(0);
+        }
+        return this.start.distance(points.get(0)) < this.start.distance(points.get(1)) ? points.get(0) : points.get(0);
     }
 }
