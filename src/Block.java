@@ -4,7 +4,7 @@ import biuoop.DrawSurface;
 
 import java.awt.Color;
 
-public class Block implements Collidable {
+public class Block implements Collidable, Sprite {
     private Rectangle rectangle;
     private Color color;
     public Block(Rectangle rectangle, Color color) {
@@ -45,5 +45,10 @@ public class Block implements Collidable {
         surface.setColor(this.color);
         surface.fillRectangle((int) this.rectangle.getUpperLeft().getX(), (int) this.rectangle.getUpperLeft().getY(),
                 (int) this.rectangle.getWidth(), (int) this.rectangle.getHeight());
-    };
+    }
+
+    @Override
+    public void timePassed() {
+        return;
+    }
 }
