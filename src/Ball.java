@@ -7,7 +7,7 @@ import java.awt.Color;
  * this class represents a ball.
  * a ball have Velocity, a center point, size (radius) and color.
  */
-public class Ball implements Sprite{
+public class Ball implements Sprite {
     private Integer radius = null;
     private Color color = null;
     private Point center = new Point(0, 0);
@@ -119,5 +119,8 @@ public class Ball implements Sprite{
     @Override
     public void timePassed() {
         this.moveOneStep();
+    }
+    public void addToGame(Game g) {
+        g.addSprite(this);
     }
 }
