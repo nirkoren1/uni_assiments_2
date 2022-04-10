@@ -17,6 +17,8 @@ public class Game {
     private KeyboardSensor keyboard;
     private int width = 800;
     private int height = 600;
+    private List<Color> colors = new ArrayList<>(Arrays.asList(Color.RED, Color.MAGENTA, Color.YELLOW, Color.black,
+            Color.CYAN, Color.GREEN));
     public void addCollidable(Collidable c) {
         this.environment.addCollidable(c);
     }
@@ -33,19 +35,34 @@ public class Game {
         this.sleeper = new Sleeper();
         this.environment = new GameEnvironment();
         this.keyboard = gui.getKeyboardSensor();
-        Ball ball = new Ball(new Point(10, 10), 5, java.awt.Color.BLACK, environment);
-        ball.setVelocity(-2, 1);
-        ball.addToGame(this);
-        Rectangle rectangle1 = new Rectangle(new Point(0, 0), width, 0);
-        Rectangle rectangle2 = new Rectangle(new Point(0, 0), 0, height);
-        Rectangle rectangle3 = new Rectangle(new Point(width, 0), 0, height);
-        Rectangle rectangle4 = new Rectangle(new Point(0, height), width, 0);
-        List<Rectangle> rectangles = new ArrayList<>(Arrays.asList(rectangle1, rectangle2, rectangle3, rectangle4));
-        for (int i = 0; i < 10; i++) {
-            rectangles.add(new Rectangle(new Point(20 * (i + 1), 20), 19, 10));
-        }
+        int borderSize = 30;
+        Ball ball1 = new Ball(new Point(400, 500), 5, Color.WHITE, environment);
+        ball1.setVelocity(Velocity.fromAngleAndSpeed(100, 3));
+        ball1.addToGame(this);
+        Ball ball2 = new Ball(new Point(400, 500), 5, Color.WHITE, environment);
+        ball2.setVelocity(Velocity.fromAngleAndSpeed(60, 3));
+        ball2.addToGame(this);
+        Paddle paddle = new Paddle(keyboard, new Rectangle(new Point(350, height - borderSize - 20), 100,
+                19), Color.ORANGE);
+        paddle.addToGame(this);
+        Rectangle border1 = new Rectangle(new Point(0, 0), width, borderSize);
+        Rectangle border2 = new Rectangle(new Point(0, borderSize), borderSize, height - borderSize);
+        Rectangle border3 = new Rectangle(new Point(width - borderSize, borderSize), borderSize, height - borderSize);
+        Rectangle border4 = new Rectangle(new Point(0, height - borderSize), width, borderSize);
+        List<Rectangle> rectangles = new ArrayList<>(Arrays.asList(border1, border2, border3, border4));
+        List<Block> blocks = new ArrayList<>();
         for (Rectangle rectangle:rectangles) {
-            Block block = new Block(rectangle, Color.BLUE);
+            Block block = new Block(rectangle, Color.GRAY);
+            blocks.add(block);
+        }
+        for (int i = 0; i < 6; i++) {
+            for (int j = 0; j < 12 - i; j++) {
+                Rectangle rectangle = new Rectangle(new Point(width - borderSize - 50 * (j + 1), 150 + i * 18), 49, 16);
+                Block block = new Block(rectangle, colors.get(i));
+                blocks.add(block);
+            }
+        }
+        for (Block block:blocks) {
             block.addToGame(this);
         }
     }
@@ -58,6 +75,8 @@ public class Game {
             long startTime = System.currentTimeMillis(); // timing
 
             DrawSurface d = gui.getDrawSurface();
+            d.setColor(Color.BLUE);
+            d.fillRectangle(0, 0, width, height);
             this.sprites.drawAllOn(d);
             gui.show(d);
             this.sprites.notifyAllTimePassed();

@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class Rectangle {
-    private final Point upperLeft = new Point(0, 0);
+    private Point upperLeft = new Point(0, 0);
     private final Double width;
     private final Double height;
 
@@ -47,5 +47,8 @@ public class Rectangle {
     // Returns the upper-left point of the rectangle.
     public Point getUpperLeft() {
         return this.upperLeft;
+    }
+    public void setUpperLeft(double x, double y) {
+        this.upperLeft = new Point(x, y);
     }
 }

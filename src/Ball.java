@@ -92,19 +92,9 @@ public class Ball implements Sprite {
             return;
         }
         Point collision = collisionInfo.collisionPoint();
-        this.center = new Point(-Math.signum(this.velocity.getDx()) + collision.getX(),
-                -Math.signum(this.velocity.getDy()) + collision.getY());
+        this.center = new Point(-0.8 * this.velocity.getDx() + collision.getX(),
+                -0.8 * this.velocity.getDy() + collision.getY());
         this.velocity = collisionInfo.collisionObject().hit(collision, this.velocity);
-
-//        this.center = this.getVelocity().applyToPoint(this.center);
-//        if (this.getX() + this.velocity.getDx() + this.radius >= xEnd
-//                || this.getX() + this.velocity.getDx() <= this.radius + xStart) {
-//            this.setVelocity(-this.velocity.getDx(), this.velocity.getDy());
-//        }
-//        if (this.getY() + this.velocity.getDy() + this.radius >= yEnd
-//                || this.getY() + this.velocity.getDy() <= this.radius + yStart) {
-//            this.setVelocity(this.velocity.getDx(), -this.velocity.getDy());
-//        }
     }
 
     /**
