@@ -12,7 +12,7 @@ public class Ball {
     private Color color = null;
     private Point center = new Point(0, 0);
     private Velocity velocity = new Velocity(0, 0);
-
+    private GameEnvironment environment;
     /**
      * the constructor.
      * the constructor assign all the members of the Ball.
@@ -20,16 +20,12 @@ public class Ball {
      * @param center Point the center point of the ball to start
      * @param r radius
      * @param color java.awt.Color color
-     * @param xStart int the x start of the frame
-     * @param yStart int the y start of the frame
-     * @param xEnd int the x end of the frame
-     * @param yEnd int the y end of the frame
+     * @param environment
      */
-    public Ball(Point center, int r, java.awt.Color color, int xStart, int yStart, int xEnd, int yEnd) {
-        int x = Math.min(Math.max((int) center.getX(), r + xStart), xEnd - r);
-        int y = Math.min(Math.max((int) center.getY(), r + yStart), yEnd - r);
-        this.center.setX(x);
-        this.center.setY(y);
+    public Ball(Point center, int r, java.awt.Color color, GameEnvironment environment) {
+        this.environment = environment;
+        this.center.setX(center.getX());
+        this.center.setY(center.getY());
         this.radius = r;
         this.color = color;
     }
@@ -86,21 +82,29 @@ public class Ball {
 
     /**
      * change the direction of the speed if the ball hits the frame boundaries.
-     * @param xStart x start of the frame
-     * @param yStart y start of the frame
-     * @param xEnd x end of the frame
-     * @param yEnd y end of the frame
      */
-    public void moveOneStep(int xStart, int yStart, int xEnd, int yEnd) {
-        this.center = this.getVelocity().applyToPoint(this.center);
-        if (this.getX() + this.velocity.getDx() + this.radius >= xEnd
-                || this.getX() + this.velocity.getDx() <= this.radius + xStart) {
-            this.setVelocity(-this.velocity.getDx(), this.velocity.getDy());
+    public void moveOneStep() {
+        Point endPoint = this.getVelocity().applyToPoint(this.center);
+        Line trajectory = new Line(this.center, endPoint);
+        CollisionInfo collisionInfo = this.environment.getClosestCollision(trajectory);
+        if (collisionInfo == null) {
+            this.center = this.getVelocity().applyToPoint(this.center);
+            return;
         }
-        if (this.getY() + this.velocity.getDy() + this.radius >= yEnd
-                || this.getY() + this.velocity.getDy() <= this.radius + yStart) {
-            this.setVelocity(this.velocity.getDx(), -this.velocity.getDy());
-        }
+        Point collision = collisionInfo.collisionPoint();
+        this.center = new Point(-Math.signum(this.velocity.getDx()) + collision.getX(),
+                -Math.signum(this.velocity.getDy()) + collision.getY());
+        this.velocity = collisionInfo.collisionObject().hit(collision, this.velocity);
+
+//        this.center = this.getVelocity().applyToPoint(this.center);
+//        if (this.getX() + this.velocity.getDx() + this.radius >= xEnd
+//                || this.getX() + this.velocity.getDx() <= this.radius + xStart) {
+//            this.setVelocity(-this.velocity.getDx(), this.velocity.getDy());
+//        }
+//        if (this.getY() + this.velocity.getDy() + this.radius >= yEnd
+//                || this.getY() + this.velocity.getDy() <= this.radius + yStart) {
+//            this.setVelocity(this.velocity.getDx(), -this.velocity.getDy());
+//        }
     }
 
     /**

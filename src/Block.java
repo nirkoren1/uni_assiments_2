@@ -1,13 +1,29 @@
 // 316443902 Nir Koren
 
+import biuoop.DrawSurface;
+
+import java.awt.Color;
+
 public class Block implements Collidable {
     private Rectangle rectangle;
-    public Block(Rectangle rectangle) {
+    private Color color;
+    public Block(Rectangle rectangle, Color color) {
         this.rectangle = rectangle;
+        this.color = color;
     }
     public Rectangle getCollisionRectangle() {
         return this.rectangle;
     }
+    /**
+     * If the collision point is on the corner of the block, the ball's velocity is reversed in both the x and y
+     * directions.
+     * If the collision point is on the left or right side of the block, the ball's velocity is reversed in the x
+     * direction.
+     * If the collision point is on the top or bottom of the block, the ball's velocity is reversed in the y direction.
+     * @param collisionPoint
+     * @param currentVelocity
+     * @return
+     */
     public Velocity hit(Point collisionPoint, Velocity currentVelocity) {
         Velocity out = new Velocity(currentVelocity.getDx(), currentVelocity.getDy());
         double leftX = this.rectangle.getUpperLeft().getX();
@@ -25,4 +41,9 @@ public class Block implements Collidable {
         }
         return out;
     }
+    public void drawOn(DrawSurface surface) {
+        surface.setColor(this.color);
+        surface.fillRectangle((int) this.rectangle.getUpperLeft().getX(), (int) this.rectangle.getUpperLeft().getY(),
+                (int) this.rectangle.getWidth(), (int) this.rectangle.getHeight());
+    };
 }

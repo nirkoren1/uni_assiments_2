@@ -35,5 +35,4 @@ public class GameEnvironment {
         }
         return new CollisionInfo(finalCollisionPoint, finalCollideOb);
     }
-
 }
