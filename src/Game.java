@@ -3,8 +3,8 @@
 import biuoop.DrawSurface;
 import biuoop.GUI;
 import biuoop.Sleeper;
-
-import java.awt.*;
+import biuoop.KeyboardSensor;
+import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -14,6 +14,7 @@ public class Game {
     private GameEnvironment environment;
     private GUI gui;
     private Sleeper sleeper;
+    private KeyboardSensor keyboard;
     private int width = 800;
     private int height = 600;
     public void addCollidable(Collidable c) {
@@ -31,6 +32,7 @@ public class Game {
         this.sprites = new SpriteCollection();
         this.sleeper = new Sleeper();
         this.environment = new GameEnvironment();
+        this.keyboard = gui.getKeyboardSensor();
         Ball ball = new Ball(new Point(10, 10), 5, java.awt.Color.BLACK, environment);
         ball.setVelocity(-2, 1);
         ball.addToGame(this);
