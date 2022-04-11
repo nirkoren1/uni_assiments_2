@@ -86,6 +86,8 @@ public class Paddle implements Sprite, Collidable {
         Velocity outVel = new Velocity(currentVelocity.getDx(), currentVelocity.getDy());
         double leftX = this.rectangle.getUpperLeft().getX();
         double rightX = this.rectangle.getUpperLeft().getX() + this.rectangle.getWidth();
+        double upperY = this.rectangle.getUpperLeft().getY();
+        double lowerY = this.rectangle.getUpperLeft().getY() + this.rectangle.getHeight();
         double region0 = this.rectangle.getUpperLeft().getX();
         double region1 = this.rectangle.getUpperLeft().getX() + this.rectangle.getWidth() / 5;
         double region2 = this.rectangle.getUpperLeft().getX() + 2 * this.rectangle.getWidth() / 5;
@@ -93,10 +95,20 @@ public class Paddle implements Sprite, Collidable {
         double region4 = this.rectangle.getUpperLeft().getX() + 4 * this.rectangle.getWidth() / 5;
         double region5 = this.rectangle.getUpperLeft().getX() + this.rectangle.getWidth();
         double collisionX = collisionPoint.getX();
+        double collisionY = collisionPoint.getY();
+        // if the ball is stuck int the right or left of the paddle, gets it out
+        if (leftX <= collisionX && collisionX < (leftX + rightX) / 2 && upperY < collisionY && collisionY <= lowerY) {
+            outVel = Velocity.fromAngleAndSpeed(290, outVel.getDx(), outVel.getDy());
+            return outVel;
+        }
+        if ((leftX + rightX) / 2 < collisionX && collisionX <= rightX && upperY < collisionY && collisionY <= lowerY) {
+            outVel = Velocity.fromAngleAndSpeed(70, outVel.getDx(), outVel.getDy());
+            return outVel;
+        }
         //If the collision point is on the left or right side of the paddle, the ball's x velocity is reversed.
         if (collisionX == leftX || collisionX == rightX) {
             outVel.setValues(-outVel.getDx(), outVel.getDy());
-        //If the collision point is on the front-most-left of the paddle, the ball's angle velocity is 300.
+            //If the collision point is on the front-most-left of the paddle, the ball's angle velocity is 300.
         } else if (region0 <= collisionX && collisionX < region1) {
             outVel = Velocity.fromAngleAndSpeed(300, outVel.getDx(), outVel.getDy());
         //If the collision point is on the front-left of the paddle, the ball's angle velocity is 330.

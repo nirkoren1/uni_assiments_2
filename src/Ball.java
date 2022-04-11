@@ -13,6 +13,9 @@ public class Ball implements Sprite {
     private Point center = new Point(0, 0);
     private Velocity velocity = new Velocity(0, 0);
     private GameEnvironment environment;
+    private Point prevCollisionPoint;
+    private Collidable prevCollisionShape;
+    private int counter = 0;
     /**
      * the constructor.
      * the constructor assign all the members of the Ball.
@@ -91,10 +94,19 @@ public class Ball implements Sprite {
             this.center = this.getVelocity().applyToPoint(this.center);
             return;
         }
+        Collidable collisionShape = collisionInfo.collisionObject();
         Point collision = collisionInfo.collisionPoint();
-        this.center = new Point(-0.8 * this.velocity.getDx() + collision.getX(),
-                -0.8 * this.velocity.getDy() + collision.getY());
-        this.velocity = collisionInfo.collisionObject().hit(collision, this.velocity);
+        // if the ball is stuck
+        if (prevCollisionPoint != null && collisionInfo.collisionObject() == prevCollisionShape) {
+            this.center = new Point(1 * this.velocity.getDx() + collision.getX(),
+                    1 * this.velocity.getDy() + collision.getY());
+        } else {
+            this.center = new Point(-0.2 * this.velocity.getDx() + collision.getX(),
+                    -0.2 * this.velocity.getDy() + collision.getY());
+            this.velocity = collisionInfo.collisionObject().hit(collision, this.velocity);
+        }
+        prevCollisionPoint = collision;
+        prevCollisionShape = collisionShape;
     }
 
     /**

@@ -38,10 +38,6 @@ public class Game {
     public void addSprite(Sprite s) {
         this.sprites.addSprite(s);
     }
-
-    // Initialize a new game: create the Blocks and Ball (and Paddle)
-    // and add them to the game.
-
     /**
      * Initialize a new game: create the Blocks and Ball (and Paddle).
      * and add them to the game.
@@ -58,6 +54,7 @@ public class Game {
         //create a new KeyboardSensor object, which will be used to control the paddle.
         this.keyboard = gui.getKeyboardSensor();
         int borderSize = 30;
+
         //create a new Ball objects, which will be used to break the blocks.
         Ball ball1 = new Ball(new Point(400, 500), 5, Color.WHITE, environment);
         ball1.setVelocity(Velocity.fromAngleAndSpeed(100, 3));
@@ -66,13 +63,14 @@ public class Game {
         ball2.setVelocity(Velocity.fromAngleAndSpeed(60, 3));
         ball2.addToGame(this);
         //create a new Paddle object, which will be used to bounce the ball.
-        Paddle paddle = new Paddle(keyboard, new Rectangle(new Point(350, height - borderSize - 20), 100,
-                19), Color.ORANGE);
+        Paddle paddle = new Paddle(keyboard, new Rectangle(new Point(350, height - borderSize - 16), 100,
+                15), Color.ORANGE);
         paddle.addToGame(this);
         //create a new Block objects, which will be used to create the borders of the game.
         Rectangle border1 = new Rectangle(new Point(0, 0), width, borderSize);
         Rectangle border2 = new Rectangle(new Point(0, borderSize), borderSize, height - borderSize);
-        Rectangle border3 = new Rectangle(new Point(width - borderSize, borderSize), borderSize, height - borderSize);
+        Rectangle border3 = new Rectangle(new Point(width - borderSize, borderSize), borderSize,
+                height - borderSize);
         Rectangle border4 = new Rectangle(new Point(0, height - borderSize), width, borderSize);
         List<Rectangle> rectangles = new ArrayList<>(Arrays.asList(border1, border2, border3, border4));
         List<Block> blocks = new ArrayList<>();
@@ -83,7 +81,8 @@ public class Game {
         //create a new Block objects, which will be used to create the blocks that the ball will break.
         for (int i = 0; i < 6; i++) {
             for (int j = 0; j < 12 - i; j++) {
-                Rectangle rectangle = new Rectangle(new Point(width - borderSize - 50 * (j + 1), 150 + i * 18), 49, 16);
+                Rectangle rectangle = new Rectangle(new Point(width - borderSize - 50 * (j + 1), 150 + i * 18),
+                        50, 18);
                 Block block = new Block(rectangle, colors.get(i));
                 blocks.add(block);
             }
