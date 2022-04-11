@@ -20,7 +20,7 @@ public class Ball implements Sprite {
      * @param center Point the center point of the ball to start
      * @param r radius
      * @param color java.awt.Color color
-     * @param environment
+     * @param environment env of the game
      */
     public Ball(Point center, int r, java.awt.Color color, GameEnvironment environment) {
         this.environment = environment;
@@ -106,10 +106,18 @@ public class Ball implements Sprite {
         surface.fillCircle((int) center.getX(), (int) center.getY(), this.radius);
     }
 
+    /**
+     * calling the moveOneStep medthod.
+     */
     @Override
     public void timePassed() {
         this.moveOneStep();
     }
+
+    /**
+     * adds the ball to the game.
+     * @param g Game ob the ball will be added
+     */
     public void addToGame(Game g) {
         g.addSprite(this);
     }
