@@ -42,11 +42,17 @@ public class Point {
     public double getY() {
         return this.y;
     }
-
+    /**
+     * set the x of the point.
+     * @param x x desired
+     */
     public void setX(double x) {
         this.x = x;
     }
-
+    /**
+     * set the y of the point.
+     * @param y y desired
+     */
     public void setY(double y) {
         this.y = y;
     }
