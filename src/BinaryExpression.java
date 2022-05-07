@@ -18,15 +18,13 @@ public abstract class BinaryExpression extends BaseExpression {
         return "(" + this.ex1.toString() + " " + this.sign + " " + this.ex2.toString() + ")";
     }
 
-    public Expression assign(String var, Expression expression) {
-        return new And(this.ex1.assign(var, expression), this.ex2.assign(var, expression));
-    }
+    public abstract Expression assign(String var, Expression expression);
 
     public Boolean evaluate(Map<String, Boolean> assignment) throws Exception {
         List<String> vars = this.getVariables();
         for (String var: vars) {
-            this.ex1.assign(var, new Val(assignment.get(var)));
-            this.ex2.assign(var, new Val(assignment.get(var)));
+            this.ex1 = this.ex1.assign(var, new Val(assignment.get(var)));
+            this.ex2 = this.ex2.assign(var, new Val(assignment.get(var)));
         }
         return this.evaluate();
     }

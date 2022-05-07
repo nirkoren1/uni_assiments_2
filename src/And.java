@@ -9,4 +9,9 @@ public class And extends BinaryExpression{
     public Boolean evaluate() throws Exception {
         return getEx1().evaluate() && getEx2().evaluate();
     }
+
+    @Override
+    public Expression assign(String var, Expression expression) {
+        return new And(getEx1().assign(var, expression), getEx2().assign(var, expression));
+    }
 }
