@@ -1,3 +1,4 @@
+package game;
 // 316443902 Nir Koren
 import biuoop.DrawSurface;
 import biuoop.KeyboardSensor;
