@@ -43,4 +43,10 @@ public abstract class BinaryExpression extends BaseExpression {
     public Expression getEx2() {
         return ex2;
     }
+
+    public Expression simplify() {
+        this.ex1 = this.ex1.simplify();
+        this.ex2 = this.ex2.simplify();
+        return null;
+    }
 }

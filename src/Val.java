@@ -38,4 +38,19 @@ public class Val implements Expression {
             return "F";
         }
     }
+
+    @Override
+    public Expression nandify() {
+        return this;
+    }
+
+    @Override
+    public Expression norify() {
+        return this;
+    }
+
+    @Override
+    public Expression simplify() {
+        return this;
+    }
 }

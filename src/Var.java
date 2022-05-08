@@ -39,4 +39,18 @@ public class Var implements Expression {
         l.add(this.stringRep);
         return l;
     }
+    @Override
+    public Expression nandify() {
+        return this;
+    }
+
+    @Override
+    public Expression norify() {
+        return this;
+    }
+
+    @Override
+    public Expression simplify() {
+        return this;
+    }
 }
