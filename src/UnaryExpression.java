@@ -42,13 +42,13 @@ public abstract class UnaryExpression extends BaseExpression {
 
     @Override
     public Expression nandify() {
-        this.ex1 = this.ex1.nandify();
+        this.ex1Nand = this.ex1.nandify();
         return null;
     }
 
     @Override
     public Expression norify() {
-        this.ex1 = this.ex1.norify();
+        this.ex1Nor = this.ex1.norify();
         return null;
     }
 

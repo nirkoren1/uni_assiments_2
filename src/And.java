@@ -1,6 +1,13 @@
 // 316443902 nir koren
 
+/**
+ * Class for the and logic expression.
+ */
 public class And extends BinaryExpression {
+    /**
+     * @param ex1 first expression
+     * @param ex2 second expression
+     */
     public And(Expression ex1, Expression ex2) {
         super(ex1, ex2, "&");
     }
