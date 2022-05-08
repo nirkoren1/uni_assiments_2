@@ -16,13 +16,15 @@ public class Xor extends BinaryExpression {
 
     @Override
     public Expression nandify() {
-        Nand nand = new Nand(getEx1(), getEx2());
-        return new Nand(new Nand(getEx1(), nand), new Nand(getEx2(), nand));
+        super.nandify();
+        Nand nand = new Nand(getEx1Nand(), getEx2Nand());
+        return new Nand(new Nand(getEx1Nand(), nand), new Nand(getEx2Nand(), nand));
     }
 
     @Override
     public Expression norify() {
-        return new Nor(new And(getEx1(), getEx2()).norify(), new Nor(getEx1(), getEx2()));
+        super.norify();
+        return new Nor(new And(getEx1Nor(), getEx2Nor()).norify(), new Nor(getEx1Nor(), getEx2Nor()));
     }
 
     @Override

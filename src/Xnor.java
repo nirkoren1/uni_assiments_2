@@ -17,13 +17,15 @@ public class Xnor extends BinaryExpression {
 
     @Override
     public Expression nandify() {
-        return new Nand(new Or(getEx1(), getEx2()).nandify(), new Nand(getEx1(), getEx2()));
+        super.nandify();
+        return new Nand(new Or(getEx1Nand(), getEx2Nand()).nandify(), new Nand(getEx1Nand(), getEx2Nand()));
     }
 
     @Override
     public Expression norify() {
-        Nor nor = new Nor(getEx1(), getEx2());
-        return new Nor(new Nor(getEx1(), nor), new Nor(getEx2(), nor));
+        super.norify();
+        Nor nor = new Nor(getEx1Nor(), getEx2Nor());
+        return new Nor(new Nor(getEx1Nor(), nor), new Nor(getEx2Nor(), nor));
     }
 
     @Override

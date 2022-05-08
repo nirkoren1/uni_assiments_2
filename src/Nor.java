@@ -16,11 +16,13 @@ public class Nor extends BinaryExpression {
 
     @Override
     public Expression nandify() {
-        return new Nand(new Or(getEx1(), getEx2()).nandify(), new Or(getEx1(), getEx2()).nandify());
+        super.nandify();
+        return new Nand(new Or(getEx1Nand(), getEx2Nand()).nandify(), new Or(getEx1Nand(), getEx2Nand()).nandify());
     }
 
     @Override
     public Expression norify() {
+        super.norify();
         return this;
     }
 

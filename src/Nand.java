@@ -16,12 +16,14 @@ public class Nand extends BinaryExpression {
 
     @Override
     public Expression nandify() {
+        super.nandify();
         return this;
     }
 
     @Override
     public Expression norify() {
-        return new Nor(new And(getEx1(), getEx2()).norify(), new And(getEx1(), getEx2()).norify());
+        super.norify();
+        return new Nor(new And(getEx1Nor(), getEx2Nor()).norify(), new And(getEx1Nor(), getEx2Nor()).norify());
     }
 
     @Override

@@ -17,12 +17,14 @@ public class And extends BinaryExpression {
 
     @Override
     public Expression nandify() {
-        return new Nand(new Nand(getEx1(), getEx2()), new Nand(getEx1(), getEx2()));
+        super.nandify();
+        return new Nand(new Nand(getEx1Nand(), getEx2Nand()), new Nand(getEx1Nand(), getEx2Nand()));
     }
 
     @Override
     public Expression norify() {
-        return new Nor(new Nor(getEx1(), getEx1()), new Nor(getEx2(), getEx2()));
+        super.norify();
+        return new Nor(new Nor(getEx1Nor(), getEx1Nor()), new Nor(getEx2Nor(), getEx2Nor()));
     }
 
     @Override

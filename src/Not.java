@@ -16,11 +16,13 @@ public class Not extends UnaryExpression {
 
     @Override
     public Expression nandify() {
-        return new Nand(getEx1(), getEx1());
+        super.nandify();
+        return new Nand(getEx1Nand(), getEx1Nand());
     }
 
     @Override
     public Expression norify() {
-        return new Nor(getEx1(), getEx1());
+        super.norify();
+        return new Nor(getEx1Nor(), getEx1Nor());
     }
 }
