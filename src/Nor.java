@@ -23,4 +23,29 @@ public class Nor extends BinaryExpression {
     public Expression norify() {
         return this;
     }
+
+    @Override
+    public Expression simplify() {
+        super.simplify();
+        if (getEx2().toString().equals(getEx1().toString())) {
+            return new Not(getEx1());
+        }
+        try {
+            if (getEx2().evaluate()) {
+                return new Val(false);
+            } else {
+                return new Not(getEx1());
+            }
+        } catch (Exception e) {
+            try {
+                if (getEx1().evaluate()) {
+                    return new Val(false);
+                } else {
+                    return new Not(getEx2());
+                }
+            } catch (Exception e2) {
+                return this;
+            }
+        }
+    }
 }

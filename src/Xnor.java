@@ -1,3 +1,5 @@
+// 316443902 nir koren
+
 public class Xnor extends BinaryExpression {
     public Xnor(Expression ex1, Expression ex2) {
         super(ex1, ex2, "#");
@@ -22,5 +24,14 @@ public class Xnor extends BinaryExpression {
     public Expression norify() {
         Nor nor = new Nor(getEx1(), getEx2());
         return new Nor(new Nor(getEx1(), nor), new Nor(getEx2(), nor));
+    }
+
+    @Override
+    public Expression simplify() {
+        super.simplify();
+        if (getEx2().toString().equals(getEx1().toString())) {
+            return new Val(true);
+        }
+        return this;
     }
 }

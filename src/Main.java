@@ -29,12 +29,9 @@ public class Main {
 //        System.out.println(expression.toString());
 //        System.out.println(expression.getVariables());
 //        System.out.println(expression.evaluate(assignment));
-        Expression e = new And(new Var("x"), new Var("y"));
-        Expression e2 = new And(new Var("w"), new Var("z"));
-        e = e.assign("x", e2);
-        System.out.println(e);
-        e = e.assign("w", new Val(true));
+        Expression e = new And(new Xnor(new Var("x"), new Var("x")), new Var("y"));
         System.out.println(e);
         System.out.println(e.simplify());
+        System.out.println(e.simplify().evaluate());
     }
 }

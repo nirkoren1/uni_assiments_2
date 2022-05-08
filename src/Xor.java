@@ -27,6 +27,26 @@ public class Xor extends BinaryExpression {
 
     @Override
     public Expression simplify() {
-        return super.simplify();
+        super.simplify();
+        if (getEx2().toString().equals(getEx1().toString())) {
+            return new Val(false);
+        }
+        try {
+            if (getEx2().evaluate()) {
+                return new Not(getEx1());
+            } else {
+                return getEx1();
+            }
+        } catch (Exception e) {
+            try {
+                if (getEx1().evaluate()) {
+                    return new Not(getEx2());
+                } else {
+                    return getEx2();
+                }
+            } catch (Exception e2) {
+                return this;
+            }
+        }
     }
 }

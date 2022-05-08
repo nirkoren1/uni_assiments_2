@@ -23,4 +23,29 @@ public class Nand extends BinaryExpression {
     public Expression norify() {
         return new Nor(new And(getEx1(), getEx2()).norify(), new And(getEx1(), getEx2()).norify());
     }
+
+    @Override
+    public Expression simplify() {
+        super.simplify();
+        if (getEx2().toString().equals(getEx1().toString())) {
+            return new Not(getEx1());
+        }
+        try {
+            if (getEx2().evaluate()) {
+                return new Not(getEx1());
+            } else {
+                return new Val(true);
+            }
+        } catch (Exception e) {
+            try {
+                if (getEx1().evaluate()) {
+                    return new Not(getEx2());
+                } else {
+                    return new Val(true);
+                }
+            } catch (Exception e2) {
+                return this;
+            }
+        }
+    }
 }
