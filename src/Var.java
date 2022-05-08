@@ -4,8 +4,16 @@ import java.util.List;
 import java.util.ArrayList;
 import java.util.Map;
 
+/**
+ * Class representing a variable.
+ */
 public class Var implements Expression {
     private String stringRep;
+
+    /**
+     * assign the String given to the ob memory.
+     * @param stringRep a representation of the variable.
+     */
     public Var(String stringRep) {
         this.stringRep = stringRep;
     }

@@ -1,5 +1,14 @@
 // 316443902 nir koren
+
+/**
+ * Class represents of the Nor logic expression.
+ */
 public class Nor extends BinaryExpression {
+    /**
+     * assign the letter V to the sign.
+     * @param ex1 first expression
+     * @param ex2 second expression
+     */
     public Nor(Expression ex1, Expression ex2) {
         super(ex1, ex2, "V");
     }

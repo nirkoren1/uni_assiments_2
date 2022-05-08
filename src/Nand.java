@@ -1,5 +1,14 @@
 // 316443902 nir koren
+
+/**
+ * Class represents the Nand logic.
+ */
 public class Nand extends BinaryExpression {
+    /**
+     * assign the letter A to the sign.
+     * @param ex1 first expression
+     * @param ex2 second expression
+     */
     public Nand(Expression ex1, Expression ex2) {
         super(ex1, ex2, "A");
     }

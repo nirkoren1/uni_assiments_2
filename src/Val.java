@@ -4,8 +4,16 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Class representing value.
+ */
 public class Val implements Expression {
     private Boolean valBool;
+
+    /**
+     * assign the bool given to the ob memory.
+     * @param bool boolean value of the val
+     */
     public Val(Boolean bool) {
         this.valBool = bool;
     }

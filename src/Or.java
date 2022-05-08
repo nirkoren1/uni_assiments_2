@@ -1,5 +1,14 @@
 // 316443902 nir koren
+
+/**
+ * Class for the or logic expression.
+ */
 public class Or extends BinaryExpression {
+    /**
+     * assign the letter | to the sign.
+     * @param ex1 first expression
+     * @param ex2 second expression
+     */
     public Or(Expression ex1, Expression ex2) {
         super(ex1, ex2, "|");
     }

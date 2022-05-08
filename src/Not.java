@@ -1,5 +1,13 @@
 // 316443902 nir koren
+
+/**
+ * Class of the Not logic expression.
+ */
 public class Not extends UnaryExpression {
+    /**
+     * assign the letter ~ to the sign.
+     * @param ex1 first expression
+     */
     public Not(Expression ex1) {
         super(ex1, "~");
     }

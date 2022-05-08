@@ -1,5 +1,14 @@
 // 316443902 nir koren
+
+/**
+ * Class for the Xor logic expression.
+ */
 public class Xor extends BinaryExpression {
+    /**
+     * assign the letter ^ to the sign.
+     * @param ex1 first expression
+     * @param ex2 second expression
+     */
     public Xor(Expression ex1, Expression ex2) {
         super(ex1, ex2, "^");
     }

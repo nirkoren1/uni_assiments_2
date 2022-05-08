@@ -1,6 +1,14 @@
 // 316443902 nir koren
 
+/**
+ * Class for the Xnor logic expression.
+ */
 public class Xnor extends BinaryExpression {
+    /**
+     * assign the letter # to the sign memory.
+     * @param ex1 first expression
+     * @param ex2 second expression
+     */
     public Xnor(Expression ex1, Expression ex2) {
         super(ex1, ex2, "#");
     }
