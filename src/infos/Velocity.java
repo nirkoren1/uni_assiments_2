@@ -1,5 +1,7 @@
-package game;
+package infos;
 // Nir Koren 316443902
+
+import geometry_primitives.Point;
 
 /**
  * velocity of the ball.

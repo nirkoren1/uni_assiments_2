@@ -1,4 +1,4 @@
-package game;
+package sprites;
 // 316443902 Nir Koren
 
 import biuoop.DrawSurface;
@@ -10,6 +10,7 @@ import java.util.List;
  */
 public class SpriteCollection {
     private List<Sprite> sprites = new ArrayList<>();
+    private List<Sprite> spritesToRemove = new ArrayList<>();
     /**
      * add a Sprite to the Sprites List.
      * @param s the new Sprite
@@ -24,6 +25,10 @@ public class SpriteCollection {
         for (Sprite s:sprites) {
             s.timePassed();
         }
+        for (Sprite toRemove:spritesToRemove) {
+            this.sprites.remove(toRemove);
+        }
+        spritesToRemove.clear();
     }
     /**
      * call drawOn(d) on all sprites.
@@ -33,5 +38,8 @@ public class SpriteCollection {
         for (Sprite s:sprites) {
             s.drawOn(d);
         }
+    }
+    public void addToRemoveList(Sprite sprite) {
+        this.spritesToRemove.add(sprite);
     }
 }

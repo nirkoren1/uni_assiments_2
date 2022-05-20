@@ -1,5 +1,8 @@
-package game;
+package infos;
 // 316443902 Nir koren
+
+import geometry_primitives.Point;
+import sprites.Collidable;
 
 /**
  * this class holds the collision information.

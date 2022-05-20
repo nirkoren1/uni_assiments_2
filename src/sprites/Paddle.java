@@ -1,7 +1,12 @@
-package game;
+package sprites;
 // 316443902 Nir Koren
 import biuoop.DrawSurface;
 import biuoop.KeyboardSensor;
+import game.Game;
+import infos.Velocity;
+import geometry_primitives.Point;
+import geometry_primitives.Rectangle;
+
 import java.awt.Color;
 
 /**
@@ -82,8 +87,9 @@ public class Paddle implements Sprite, Collidable {
      * @param collisionPoint the collision point expected with the paddle.
      * @param currentVelocity current velocity of the ball.
      * @return Velocity the updated velocity of the ball.
+     * @param hitter Ball that hits the paddle
      */
-    public Velocity hit(Point collisionPoint, Velocity currentVelocity) {
+    public Velocity hit(Ball hitter, Point collisionPoint, Velocity currentVelocity) {
         Velocity outVel = new Velocity(currentVelocity.getDx(), currentVelocity.getDy());
         double leftX = this.rectangle.getUpperLeft().getX();
         double rightX = this.rectangle.getUpperLeft().getX() + this.rectangle.getWidth();

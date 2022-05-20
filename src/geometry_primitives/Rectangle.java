@@ -1,4 +1,4 @@
-package game;
+package geometry_primitives;
 // 316443902 Nir Koren
 
 import java.util.ArrayList;

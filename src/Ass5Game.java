@@ -1,10 +1,11 @@
-package game;
 // 316443902 Nir Koren
+
+import game.Game;
 
 /**
  * the final game app.
  */
-public class Ass3Game {
+public class Ass5Game {
     /**
      * create new game, initialize it and runs it.
      * @param args from cmd

@@ -1,6 +1,11 @@
 package game;
 // 316443902 Nir Koren
 
+import geometry_primitives.Line;
+import geometry_primitives.Point;
+import infos.CollisionInfo;
+import sprites.Collidable;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,5 +50,8 @@ public class GameEnvironment {
             return null;
         }
         return new CollisionInfo(finalCollisionPoint, finalCollideOb);
+    }
+    public void removeCollidable(Collidable collidable) {
+        this.collidables.remove(collidable);
     }
 }

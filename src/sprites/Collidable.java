@@ -1,5 +1,9 @@
-package game;
+package sprites;
 // 316443902 Nir Koren
+
+import infos.Velocity;
+import geometry_primitives.Point;
+import geometry_primitives.Rectangle;
 
 /**
  * interface for the the Collidable classes.
@@ -18,6 +22,7 @@ public interface Collidable {
      * @param collisionPoint Point of collision
      * @param currentVelocity the current Velocity of the ball
      * @return new velocity expected after the hit
+     * @param hitter Ball that hits the collidable
      */
-    Velocity hit(Point collisionPoint, Velocity currentVelocity);
+    Velocity hit(Ball hitter, Point collisionPoint, Velocity currentVelocity);
 }

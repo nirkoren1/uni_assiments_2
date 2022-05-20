@@ -22,7 +22,7 @@
 
 
     <target name="run" depends="compile" >
-        <java classname="ExpressionsTest" classpath="${classpath}" fork="true"/>
+        <java classname="logic_ass.ExpressionsTest" classpath="${classpath}" fork="true"/>
     </target>
 
     <!-- Run checkstyle on all our source files -->

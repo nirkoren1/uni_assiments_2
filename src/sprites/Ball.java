@@ -1,7 +1,14 @@
-package game;
+package sprites;
 // Nir Koren 316443902
 
 import biuoop.DrawSurface;
+import game.Game;
+import game.GameEnvironment;
+import geometry_primitives.Line;
+import geometry_primitives.Point;
+import infos.CollisionInfo;
+import infos.Velocity;
+
 import java.awt.Color;
 
 /**
@@ -104,7 +111,7 @@ public class Ball implements Sprite {
         } else {
             this.center = new Point(-0.2 * this.velocity.getDx() + collision.getX(),
                     -0.2 * this.velocity.getDy() + collision.getY());
-            this.velocity = collisionInfo.collisionObject().hit(collision, this.velocity);
+            this.velocity = collisionInfo.collisionObject().hit(this, collision, this.velocity);
         }
         prevCollisionPoint = collision;
         prevCollisionShape = collisionShape;
@@ -133,5 +140,10 @@ public class Ball implements Sprite {
      */
     public void addToGame(Game g) {
         g.addSprite(this);
+        g.getRemainingBalls().increase(1);
+    }
+
+    public void removeFromGame(Game g) {
+        g.removeSprite(this);
     }
 }

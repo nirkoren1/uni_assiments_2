@@ -1,4 +1,4 @@
-package game;
+package sprites;
 // 316443902 Nir Koren
 
 import biuoop.DrawSurface;
