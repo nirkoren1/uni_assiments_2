@@ -105,11 +105,19 @@ public class Block implements Collidable, Sprite, HitNotifier {
         this.hitListeners.remove(hl);
     }
 
+    /**
+     * remove the block from the game.
+     * @param game the game
+     */
     public void removeFromGame(Game game) {
         game.removeSprite(this);
         game.removeCollidable(this);
     }
 
+    /**
+     * notify all the listeners that the block was hit.
+     * @param hitter the hitter ball
+     */
     private void notifyHit(Ball hitter) {
         // Make a copy of the hitListeners before iterating over them.
         List<HitListener> listeners = new ArrayList<HitListener>(this.hitListeners);

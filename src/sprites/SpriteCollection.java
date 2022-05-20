@@ -39,6 +39,11 @@ public class SpriteCollection {
             s.drawOn(d);
         }
     }
+
+    /**
+     * add sprite to the remove list for removing later.
+     * @param sprite the sprite being removed
+     */
     public void addToRemoveList(Sprite sprite) {
         this.spritesToRemove.add(sprite);
     }

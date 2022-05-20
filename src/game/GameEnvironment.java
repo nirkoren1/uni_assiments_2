@@ -14,6 +14,7 @@ import java.util.List;
  */
 public class GameEnvironment {
     private List<Collidable> collidables = new ArrayList<>();
+
     /**
      * add the given collidable to the environment.
      * @param c Coollidable ob
@@ -21,6 +22,7 @@ public class GameEnvironment {
     public void addCollidable(Collidable c) {
         this.collidables.add(c);
     }
+
     /**
      * gets the closest collision Point for the trajectory.
      * iterates over all the collidables in the game environment.
@@ -28,6 +30,7 @@ public class GameEnvironment {
      * If it does, check if the intersection point is the closest one so far.
      * If it is, update the closest collision information.
      * If no collision occurred, returns null.
+     *
      * @param trajectory Line of the trajectory
      * @return the collision info of the collision
      */
@@ -51,6 +54,11 @@ public class GameEnvironment {
         }
         return new CollisionInfo(finalCollisionPoint, finalCollideOb);
     }
+
+    /**
+     * Remove collidable.
+     * @param collidable the collidable
+     */
     public void removeCollidable(Collidable collidable) {
         this.collidables.remove(collidable);
     }

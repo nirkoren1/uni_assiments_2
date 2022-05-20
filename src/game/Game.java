@@ -12,8 +12,13 @@ import listeners.BallRemover;
 import listeners.BlockRemover;
 import listeners.Counter;
 import listeners.ScoreTrackingListener;
-import sprites.*;
-
+import sprites.Ball;
+import sprites.Block;
+import sprites.Collidable;
+import sprites.Paddle;
+import sprites.ScoreIndicator;
+import sprites.Sprite;
+import sprites.SpriteCollection;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -45,6 +50,7 @@ public class Game {
 
     /**
      * add a Collidable to the environment Collidables list.
+     *
      * @param c the Collidable ob
      */
     public void addCollidable(Collidable c) {
@@ -53,11 +59,13 @@ public class Game {
 
     /**
      * add a Sprite ob to the sprites list.
+     *
      * @param s Sprite ob
      */
     public void addSprite(Sprite s) {
         this.sprites.addSprite(s);
     }
+
     /**
      * Initialize a new game: create the Blocks and Ball (and Paddle).
      * and add them to the game.
@@ -82,11 +90,10 @@ public class Game {
         Ball ball2 = new Ball(new Point(400, 500), 5, Color.WHITE, environment);
         ball2.setVelocity(Velocity.fromAngleAndSpeed(60, 3));
         ball2.addToGame(this);
-        for (int i = 0; i < 100; i++) {
-            Ball ball = new Ball(new Point(400, 500), 5, Color.WHITE, environment);
-            ball.setVelocity(Velocity.fromAngleAndSpeed(60 + i, 3));
-            ball.addToGame(this);
-        }
+        Ball ball3 = new Ball(new Point(400, 500), 5, Color.WHITE, environment);
+        ball3.setVelocity(Velocity.fromAngleAndSpeed(40, 3));
+        ball3.addToGame(this);
+
 
         //create a new Paddle object, which will be used to bounce the ball.
         Paddle paddle = new Paddle(keyboard, new Rectangle(new Point(350, height - borderSize + 15), 100,
@@ -133,6 +140,7 @@ public class Game {
         ScoreIndicator scoreIndicator = new ScoreIndicator(currentScore);
         scoreIndicator.addToGame(this);
     }
+
     /**
      * the main animation loop of the game.
      */
@@ -172,20 +180,33 @@ public class Game {
         }
     }
 
+    /**
+     * Remove collidable.
+     * @param c the collidable
+     */
     public void removeCollidable(Collidable c) {
         this.environment.removeCollidable(c);
     }
 
+    /**
+     * Remove sprite.
+     * @param s the sprite
+     */
     public void removeSprite(Sprite s) {
         this.sprites.addToRemoveList(s);
     }
 
+    /**
+     * Gets remaining balls.
+     * @return the remaining balls counter
+     */
     public Counter getRemainingBalls() {
         return this.remainingBalls;
     }
 
     /**
      * create new game, initialize it and runs it.
+     *
      * @param args from cmd
      */
     public static void main(String[] args) {

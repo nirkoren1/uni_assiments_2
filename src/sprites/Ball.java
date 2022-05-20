@@ -143,6 +143,10 @@ public class Ball implements Sprite {
         g.getRemainingBalls().increase(1);
     }
 
+    /**
+     * remove the ball from the game.
+     * @param g the game
+     */
     public void removeFromGame(Game g) {
         g.removeSprite(this);
     }

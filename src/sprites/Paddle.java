@@ -1,5 +1,6 @@
-package sprites;
 // 316443902 Nir Koren
+
+package sprites;
 import biuoop.DrawSurface;
 import biuoop.KeyboardSensor;
 import game.Game;
