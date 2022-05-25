@@ -2,7 +2,7 @@ package sprites;
 // 316443902 Nir Koren
 
 import biuoop.DrawSurface;
-import game.Game;
+import animations.GameLevel;
 import listeners.HitListener;
 import listeners.HitNotifier;
 import infos.Velocity;
@@ -91,7 +91,7 @@ public class Block implements Collidable, Sprite, HitNotifier {
      * add the block to the game.
      * @param g Game given
      */
-    public void addToGame(Game g) {
+    public void addToGame(GameLevel g) {
         g.addCollidable(this);
         g.addSprite(this);
     }
@@ -107,11 +107,11 @@ public class Block implements Collidable, Sprite, HitNotifier {
 
     /**
      * remove the block from the game.
-     * @param game the game
+     * @param gameLevel the game
      */
-    public void removeFromGame(Game game) {
-        game.removeSprite(this);
-        game.removeCollidable(this);
+    public void removeFromGame(GameLevel gameLevel) {
+        gameLevel.removeSprite(this);
+        gameLevel.removeCollidable(this);
     }
 
     /**

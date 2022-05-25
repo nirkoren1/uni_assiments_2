@@ -1,6 +1,6 @@
 // 316443902 Nir Koren
 
-import game.Game;
+import animations.GameLevel;
 
 /**
  * the final game app.
@@ -11,8 +11,8 @@ public class Ass5Game {
      * @param args from cmd
      */
     public static void main(String[] args) {
-        Game game = new Game();
-        game.initialize();
-        game.run();
+        GameLevel gameLevel = new GameLevel();
+        gameLevel.initialize();
+        gameLevel.run();
     }
 }

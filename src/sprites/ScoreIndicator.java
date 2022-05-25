@@ -3,7 +3,7 @@ package sprites;
 
 import biuoop.DrawSurface;
 import listeners.Counter;
-import game.Game;
+import animations.GameLevel;
 import java.awt.Color;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -51,7 +51,7 @@ public class ScoreIndicator implements Sprite {
      * Add to game.
      * @param g the g
      */
-    public void addToGame(Game g) {
+    public void addToGame(GameLevel g) {
         g.addSprite(this);
     }
 }

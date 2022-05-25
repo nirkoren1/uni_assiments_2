@@ -1,4 +1,4 @@
-package game;
+package animations;
 // 316443902 Nir Koren
 
 import geometry_primitives.Line;

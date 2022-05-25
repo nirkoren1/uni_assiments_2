@@ -1,4 +1,4 @@
-package game;
+package animations;
 // Nir koren 316443902
 
 import biuoop.DrawSurface;

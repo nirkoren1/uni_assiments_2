@@ -1,4 +1,4 @@
-package game;
+package animations;
 // 316443902 Nir Koren
 
 import biuoop.DrawSurface;
@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * this class can create a new paddle and ball game and run it.
  */
-public class Game implements Animation {
+public class GameLevel implements Animation {
     private SpriteCollection sprites;
     private GameEnvironment environment;
     private GUI gui;
@@ -219,8 +219,8 @@ public class Game implements Animation {
      * @param args from cmd
      */
     public static void main(String[] args) {
-        Game game = new Game();
-        game.initialize();
-        game.run();
+        GameLevel gameLevel = new GameLevel();
+        gameLevel.initialize();
+        gameLevel.run();
     }
 }
