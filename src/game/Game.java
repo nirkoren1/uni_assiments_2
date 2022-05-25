@@ -27,7 +27,7 @@ import java.util.List;
 /**
  * this class can create a new paddle and ball game and run it.
  */
-public class Game {
+public class Game implements Animation {
     private SpriteCollection sprites;
     private GameEnvironment environment;
     private GUI gui;
@@ -47,6 +47,8 @@ public class Game {
     // color list for regular use
     private List<Color> colors = new ArrayList<>(Arrays.asList(Color.RED, Color.MAGENTA, Color.YELLOW, Color.black,
             Color.CYAN, Color.GREEN));
+    private AnimationRunner runner;
+    private boolean running;
 
     /**
      * add a Collidable to the environment Collidables list.
@@ -66,6 +68,33 @@ public class Game {
         this.sprites.addSprite(s);
     }
 
+    @Override
+    public boolean shouldStop() {
+        return !this.running;
+    }
+
+    @Override
+    public void doOneFrame(DrawSurface d) {
+        if (this.keyboard.isPressed("p")) {
+            this.runner.run(new PauseScreen(this.keyboard));
+        }
+        d.setColor(Color.BLUE);
+        d.fillRectangle(0, 0, width, height);
+        //draws all the sprites.
+        this.sprites.drawAllOn(d);
+        //notifies all the sprites that time has passed.
+        this.sprites.notifyAllTimePassed();
+        if (remainingBlocks.getValue() == 0) {
+            currentScore.increase(100);
+            gui.close();
+            this.running = false;
+        }
+        if (remainingBalls.getValue() == 0) {
+            gui.close();
+            this.running = false;
+        }
+    }
+
     /**
      * Initialize a new game: create the Blocks and Ball (and Paddle).
      * and add them to the game.
@@ -82,6 +111,8 @@ public class Game {
         //create a new KeyboardSensor object, which will be used to control the paddle.
         this.keyboard = gui.getKeyboardSensor();
         int borderSize = 30;
+        // create the animation runner
+        this.runner = new AnimationRunner(60, this.gui, this.sleeper);
 
         //create a new Ball objects, which will be used to break the blocks.
         Ball ball1 = new Ball(new Point(400, 500), 5, Color.WHITE, environment);
@@ -145,39 +176,8 @@ public class Game {
      * the main animation loop of the game.
      */
     public void run() {
-        int framesPerSecond = 60;
-        int millisecondsPerFrame = 1000 / framesPerSecond;
-        while (true) {
-            long startTime = System.currentTimeMillis(); // timing
-            //creates a new DrawSurface object, which is the object that we can draw on.
-            DrawSurface d = gui.getDrawSurface();
-            //draws the background of the game.
-            d.setColor(Color.BLUE);
-            d.fillRectangle(0, 0, width, height);
-            //draws all the sprites.
-            this.sprites.drawAllOn(d);
-            //shows the drawing.
-            gui.show(d);
-            //notifies all the sprites that time has passed.
-            this.sprites.notifyAllTimePassed();
-
-            // timing
-            long usedTime = System.currentTimeMillis() - startTime;
-            long milliSecondLeftToSleep = millisecondsPerFrame - usedTime;
-            //waits for a short period of time.
-            if (milliSecondLeftToSleep > 0) {
-                sleeper.sleepFor(milliSecondLeftToSleep);
-            }
-            if (remainingBlocks.getValue() == 0) {
-                currentScore.increase(100);
-                gui.close();
-                return;
-            }
-            if (remainingBalls.getValue() == 0) {
-                gui.close();
-                return;
-            }
-        }
+        this.running = true;
+        this.runner.run(this);
     }
 
     /**
