@@ -77,6 +77,7 @@ public class Game implements Animation {
     public void doOneFrame(DrawSurface d) {
         if (this.keyboard.isPressed("p")) {
             this.runner.run(new PauseScreen(this.keyboard));
+            this.countDown();
         }
         d.setColor(Color.BLUE);
         d.fillRectangle(0, 0, width, height);
@@ -173,9 +174,17 @@ public class Game implements Animation {
     }
 
     /**
+     * count down method for comfort.
+     */
+    private void countDown() {
+        this.runner.run(new CountdownAnimation(2, 3, this.sprites, this.width, this.height));
+    }
+
+    /**
      * the main animation loop of the game.
      */
     public void run() {
+        this.countDown();
         this.running = true;
         this.runner.run(this);
     }
