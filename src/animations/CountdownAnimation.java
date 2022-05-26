@@ -37,13 +37,12 @@ public class CountdownAnimation implements Animation {
     }
     private void drawNumber(DrawSurface d, int num) {
         d.setColor(Color.BLACK);
+        d.fillCircle(this.width / 2 + 10, this.height / 2 - 12, 30);
+        d.setColor(Color.WHITE);
         d.drawText(this.width / 2, this.height / 2, num + "", 40);
     }
     @Override
     public void doOneFrame(DrawSurface d) {
-        // background currently
-        d.setColor(Color.BLUE);
-        d.fillRectangle(0, 0, this.width, this.height);
         //draws all the sprites.
         this.gameScreen.drawAllOn(d);
         this.drawNumber(d, this.countFrom - this.counter / this.framesPerNum);

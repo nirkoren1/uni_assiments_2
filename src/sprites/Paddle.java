@@ -17,7 +17,7 @@ public class Paddle implements Sprite, Collidable {
     private KeyboardSensor keyboard;
     private Rectangle rectangle;
     private Color color;
-    private double speed = 5;
+    private double speed;
 
     /**
      * The constructor receives a KeyboardSensor, a Rectangle and color, and creates a Paddle object.
@@ -25,10 +25,11 @@ public class Paddle implements Sprite, Collidable {
      * @param rectangle Rectangle shape of the paddle
      * @param color Color
      */
-    public Paddle(KeyboardSensor keyboard, Rectangle rectangle, Color color) {
+    public Paddle(KeyboardSensor keyboard, Rectangle rectangle, Color color, double speed) {
         this.keyboard = keyboard;
         this.rectangle = rectangle;
         this.color = color;
+        this.speed = speed;
     }
 
     /**

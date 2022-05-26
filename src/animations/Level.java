@@ -14,22 +14,22 @@ public class Level implements LevelInformation {
     private int paddleSpeed;
     private int paddleWidth;
     private String levelName;
-    private Sprite background;
+    private List<Sprite> background;
     private List<Block> blocksList;
     private int blocksToRemove;
 
     /**
      * construct.
-     * @param numOfBalls
-     * @param velocities
-     * @param paddleSpeed
-     * @param paddleWidth
-     * @param levelName
-     * @param background
-     * @param blocksList
+     * @param numOfBalls the number of balls
+     * @param velocities the velocities
+     * @param paddleSpeed the paddle speed
+     * @param paddleWidth the paddle width
+     * @param levelName the level name
+     * @param background the background
+     * @param blocksList the blocks list
      */
     public Level(int numOfBalls, List<Velocity> velocities, int paddleSpeed, int paddleWidth, String levelName,
-                 Sprite background, List<Block> blocksList) {
+                 List<Sprite> background, List<Block> blocksList) {
         this.numOfBalls = numOfBalls;
         this.velocities = velocities;
         this.paddleSpeed = paddleSpeed;
@@ -70,7 +70,7 @@ public class Level implements LevelInformation {
     }
 
     @Override
-    public Sprite getBackground() {
+    public List<Sprite> getBackground() {
         return this.background;
     }
 

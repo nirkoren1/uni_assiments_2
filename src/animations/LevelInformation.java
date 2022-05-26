@@ -45,7 +45,7 @@ public interface LevelInformation {
      * @return the background
      */
 // Returns a sprite with the background of the level
-    Sprite getBackground();
+    List<Sprite> getBackground();
 
     /**
      * @return the blocks list

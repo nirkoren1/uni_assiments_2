@@ -7,7 +7,6 @@ import biuoop.Sleeper;
 import biuoop.KeyboardSensor;
 import geometry_primitives.Point;
 import geometry_primitives.Rectangle;
-import infos.Velocity;
 import listeners.BallRemover;
 import listeners.BlockRemover;
 import listeners.Counter;
@@ -49,6 +48,7 @@ public class GameLevel implements Animation {
             Color.CYAN, Color.GREEN));
     private AnimationRunner runner;
     private boolean running;
+    private LevelInformation levelInfo;
 
     /**
      * add a Collidable to the environment Collidables list.
@@ -79,8 +79,6 @@ public class GameLevel implements Animation {
             this.runner.run(new PauseScreen(this.keyboard));
             this.countDown();
         }
-        d.setColor(Color.BLUE);
-        d.fillRectangle(0, 0, width, height);
         //draws all the sprites.
         this.sprites.drawAllOn(d);
         //notifies all the sprites that time has passed.
@@ -99,8 +97,10 @@ public class GameLevel implements Animation {
     /**
      * Initialize a new game: create the Blocks and Ball (and Paddle).
      * and add them to the game.
+     * @param levelInfo the level information
      */
-    public void initialize() {
+    public void initialize(LevelInformation levelInfo) {
+        this.levelInfo = levelInfo;
         //create a new GUI object, which is the window that will display the game.
         this.gui = new GUI("Game!", 800, 600);
         //create a new SpriteCollection object, which will hold all the sprites in the game.
@@ -114,22 +114,21 @@ public class GameLevel implements Animation {
         int borderSize = 30;
         // create the animation runner
         this.runner = new AnimationRunner(60, this.gui, this.sleeper);
+        // add the background
+        for (Sprite sprite:this.levelInfo.getBackground()) {
+            this.sprites.addSprite(sprite);
+        }
 
         //create a new Ball objects, which will be used to break the blocks.
-        Ball ball1 = new Ball(new Point(400, 500), 5, Color.WHITE, environment);
-        ball1.setVelocity(Velocity.fromAngleAndSpeed(100, 3));
-        ball1.addToGame(this);
-        Ball ball2 = new Ball(new Point(400, 500), 5, Color.WHITE, environment);
-        ball2.setVelocity(Velocity.fromAngleAndSpeed(60, 3));
-        ball2.addToGame(this);
-        Ball ball3 = new Ball(new Point(400, 500), 5, Color.WHITE, environment);
-        ball3.setVelocity(Velocity.fromAngleAndSpeed(40, 3));
-        ball3.addToGame(this);
-
+        for (int i = 0; i < this.levelInfo.numberOfBalls(); i++) {
+            Ball ball = new Ball(new Point(400, 500), 5, Color.WHITE, environment);
+            ball.setVelocity(this.levelInfo.initialBallVelocities().get(i));
+            ball.addToGame(this);
+        }
 
         //create a new Paddle object, which will be used to bounce the ball.
-        Paddle paddle = new Paddle(keyboard, new Rectangle(new Point(350, height - borderSize + 15), 100,
-                15), Color.ORANGE);
+        Paddle paddle = new Paddle(keyboard, new Rectangle(new Point(this.width / 2 - this.levelInfo.paddleWidth() / 2, height - borderSize + 15),
+                                    this.levelInfo.paddleWidth(), 15), Color.ORANGE, this.levelInfo.paddleSpeed());
         paddle.addToGame(this);
 
         //create a new Block objects, which will be used to create the borders of the game.
@@ -151,25 +150,20 @@ public class GameLevel implements Animation {
             Block block = new Block(rectangle, Color.GRAY);
             blocks.add(block);
         }
-
-        //create a new Block objects, which will be used to create the blocks that the ball will break.
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 12 - i; j++) {
-                Rectangle rectangle = new Rectangle(new Point(width - borderSize - 50 * (j + 1), 150 + i * 18),
-                        50, 18);
-                Block block = new Block(rectangle, colors.get(i));
-                blocks.add(block);
-                block.addHitListener(this.blockRemover);
-                block.addHitListener(this.scoreTrackingListener);
-                this.remainingBlocks.increase(1);
-            }
+        // add the blocks to the game
+        for (Block block: this.levelInfo.blocks()) {
+            block.addHitListener(this.blockRemover);
+            block.addHitListener(this.scoreTrackingListener);
+            this.remainingBlocks.increase(1);
+            blocks.add(block);
         }
+        // add the blocks to the game
         for (Block block:blocks) {
             block.addToGame(this);
         }
 
         // add the score sprite
-        ScoreIndicator scoreIndicator = new ScoreIndicator(currentScore);
+        ScoreIndicator scoreIndicator = new ScoreIndicator(currentScore, this.levelInfo.levelName());
         scoreIndicator.addToGame(this);
     }
 
@@ -211,16 +205,5 @@ public class GameLevel implements Animation {
      */
     public Counter getRemainingBalls() {
         return this.remainingBalls;
-    }
-
-    /**
-     * create new game, initialize it and runs it.
-     *
-     * @param args from cmd
-     */
-    public static void main(String[] args) {
-        GameLevel gameLevel = new GameLevel();
-        gameLevel.initialize();
-        gameLevel.run();
     }
 }
