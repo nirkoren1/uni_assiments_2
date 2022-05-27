@@ -1,4 +1,4 @@
-package animations;
+package levels;
 // Nir koren 316443902
 import infos.Velocity;
 import sprites.Block;

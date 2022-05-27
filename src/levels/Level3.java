@@ -1,12 +1,10 @@
-package animations;
+package levels;
 // Nir Koren 316443902
-import geometry_primitives.Line;
 import geometry_primitives.Point;
 import geometry_primitives.Rectangle;
 import infos.Velocity;
 import sprites.Block;
 import sprites.FillCircleSprite;
-import sprites.LineSprite;
 import sprites.Sprite;
 import java.awt.Color;
 import java.util.ArrayList;

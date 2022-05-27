@@ -3,6 +3,7 @@ package animations;
 import biuoop.GUI;
 import biuoop.KeyboardSensor;
 import biuoop.Sleeper;
+import levels.LevelInformation;
 import listeners.Counter;
 import java.util.List;
 

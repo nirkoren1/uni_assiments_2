@@ -24,6 +24,7 @@ public class Paddle implements Sprite, Collidable {
      * @param keyboard Keyboard ob
      * @param rectangle Rectangle shape of the paddle
      * @param color Color
+     * @param speed the speed of the paddle
      */
     public Paddle(KeyboardSensor keyboard, Rectangle rectangle, Color color, double speed) {
         this.keyboard = keyboard;

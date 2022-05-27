@@ -1,4 +1,4 @@
-package animations;
+package levels;
 // Nir koren 316443902
 import geometry_primitives.Line;
 import geometry_primitives.Point;

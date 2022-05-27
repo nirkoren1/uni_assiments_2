@@ -6,6 +6,7 @@ import biuoop.Sleeper;
 import biuoop.KeyboardSensor;
 import geometry_primitives.Point;
 import geometry_primitives.Rectangle;
+import levels.LevelInformation;
 import listeners.BallRemover;
 import listeners.BlockRemover;
 import listeners.Counter;
