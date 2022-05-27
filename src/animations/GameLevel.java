@@ -2,7 +2,6 @@ package animations;
 // 316443902 Nir Koren
 
 import biuoop.DrawSurface;
-import biuoop.GUI;
 import biuoop.Sleeper;
 import biuoop.KeyboardSensor;
 import geometry_primitives.Point;
@@ -29,7 +28,6 @@ import java.util.List;
 public class GameLevel implements Animation {
     private SpriteCollection sprites;
     private GameEnvironment environment;
-    private GUI gui;
     private Sleeper sleeper;
     private KeyboardSensor keyboard;
     private int width = 800;
@@ -41,15 +39,22 @@ public class GameLevel implements Animation {
     private Counter remainingBalls = new Counter();
     private BallRemover ballRemover = new BallRemover(this, remainingBalls);
     // score Counter and listener
-    private Counter currentScore = new Counter();
-    private ScoreTrackingListener scoreTrackingListener = new ScoreTrackingListener(currentScore);
+    private Counter currentScore;
+    private ScoreTrackingListener scoreTrackingListener;
     // color list for regular use
     private List<Color> colors = new ArrayList<>(Arrays.asList(Color.RED, Color.MAGENTA, Color.YELLOW, Color.black,
             Color.CYAN, Color.GREEN));
     private AnimationRunner runner;
     private boolean running;
     private LevelInformation levelInfo;
-
+    private KeyPressStoppableAnimation spaceStopAnimation;
+    /**
+     * Construct a new GameLevel.
+     * @param spaceStopAnimation the space stop animation
+     */
+    public GameLevel(KeyPressStoppableAnimation spaceStopAnimation) {
+        this.spaceStopAnimation = spaceStopAnimation;
+    }
     /**
      * add a Collidable to the environment Collidables list.
      *
@@ -76,7 +81,8 @@ public class GameLevel implements Animation {
     @Override
     public void doOneFrame(DrawSurface d) {
         if (this.keyboard.isPressed("p")) {
-            this.runner.run(new PauseScreen(this.keyboard));
+            this.spaceStopAnimation.setInnerAnimation(new PauseScreen(this.keyboard));
+            this.runner.run(this.spaceStopAnimation);
             this.countDown();
         }
         //draws all the sprites.
@@ -85,11 +91,9 @@ public class GameLevel implements Animation {
         this.sprites.notifyAllTimePassed();
         if (remainingBlocks.getValue() == 0) {
             currentScore.increase(100);
-            gui.close();
             this.running = false;
         }
         if (remainingBalls.getValue() == 0) {
-            gui.close();
             this.running = false;
         }
     }
@@ -98,11 +102,13 @@ public class GameLevel implements Animation {
      * Initialize a new game: create the Blocks and Ball (and Paddle).
      * and add them to the game.
      * @param levelInfo the level information
+     * @param runner the animation runner
+     * @param keyboard the keyboard sensor
+     * @param currentScore the score
      */
-    public void initialize(LevelInformation levelInfo) {
+    public void initialize(LevelInformation levelInfo, KeyboardSensor keyboard, AnimationRunner runner,
+                           Counter currentScore) {
         this.levelInfo = levelInfo;
-        //create a new GUI object, which is the window that will display the game.
-        this.gui = new GUI("Game!", 800, 600);
         //create a new SpriteCollection object, which will hold all the sprites in the game.
         this.sprites = new SpriteCollection();
         //create a new Sleeper object, which will be used to control the frames per second.
@@ -110,10 +116,13 @@ public class GameLevel implements Animation {
         //create a new GameEnvironment object, which will hold all the collidables in the game.
         this.environment = new GameEnvironment();
         //create a new KeyboardSensor object, which will be used to control the paddle.
-        this.keyboard = gui.getKeyboardSensor();
+        this.keyboard = keyboard;
         int borderSize = 30;
         // create the animation runner
-        this.runner = new AnimationRunner(60, this.gui, this.sleeper);
+        this.runner = runner;
+        // create the score counter and add the listener
+        this.currentScore = currentScore;
+        this.scoreTrackingListener = new ScoreTrackingListener(this.currentScore);
         // add the background
         for (Sprite sprite:this.levelInfo.getBackground()) {
             this.sprites.addSprite(sprite);
@@ -127,8 +136,9 @@ public class GameLevel implements Animation {
         }
 
         //create a new Paddle object, which will be used to bounce the ball.
-        Paddle paddle = new Paddle(keyboard, new Rectangle(new Point(this.width / 2 - this.levelInfo.paddleWidth() / 2, height - borderSize + 15),
-                                    this.levelInfo.paddleWidth(), 15), Color.ORANGE, this.levelInfo.paddleSpeed());
+        Paddle paddle = new Paddle(keyboard, new Rectangle(new Point(this.width / 2 - this.levelInfo.paddleWidth() / 2,
+                height - borderSize + 15), this.levelInfo.paddleWidth(), 15), Color.ORANGE,
+                this.levelInfo.paddleSpeed());
         paddle.addToGame(this);
 
         //create a new Block objects, which will be used to create the borders of the game.

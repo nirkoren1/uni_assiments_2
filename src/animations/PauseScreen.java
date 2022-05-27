@@ -13,7 +13,7 @@ public class PauseScreen implements Animation {
 
     /**
      * Construct a new Pause screen.
-     * @param k the k
+     * @param k the keyboard sensor
      */
     public PauseScreen(KeyboardSensor k) {
         this.keyboard = k;
@@ -23,9 +23,6 @@ public class PauseScreen implements Animation {
     @Override
     public void doOneFrame(DrawSurface d) {
         d.drawText(10, d.getHeight() / 2, "paused -- press space to continue", 32);
-        if (this.keyboard.isPressed(KeyboardSensor.SPACE_KEY)) {
-            this.stop = true;
-        }
     }
     @Override
     public boolean shouldStop() {

@@ -40,12 +40,10 @@ public class ScoreIndicator implements Sprite {
                 fontSize = 20;
             }
         }
-//        d.setColor(Color.WHITE);
-//        d.fillRectangle(0, 0, 800, 26);
         d.setColor(this.colors.get(colorIndex));
-        d.drawText(375, 23, "SCORE: " + currentScore.getValue(), fontSize);
+        d.drawText(350, 23, "SCORE: " + currentScore.getValue(), fontSize);
         d.setColor(Color.BLACK);
-        d.drawText(500, 23, "Level Name: " + this.levelName, 20);
+        d.drawText(560, 23, "Level Name: " + this.levelName, 20);
         this.animationCounter += 1;
     }
 
