@@ -1,7 +1,6 @@
 package ass7;
 
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 /**
  * this class create the HashMap.
@@ -18,11 +17,11 @@ public class HashMapCreator {
      * create the hypernym hashmap.
      * @param relations the list of relations
      */
-    public void addHypernym(List<List<String>> relations) {
+    public void addHypernyms(List<List<String>> relations) {
         for (List<String> relation : relations) {
             String first = relation.get(0);
             if (!hypernym.containsKey(first)) {
-                hypernym.put(first, new HashMap<String, Integer>());
+                hypernym.put(first, new HashMap<>());
                 for (int i = 1; i < relation.size(); i++) {
                     hypernym.get(first).put(relation.get(i), 1);
                 }
@@ -35,7 +34,23 @@ public class HashMapCreator {
                     }
                 }
             }
+            this.hypernym.put(first, sortNumOfAppearances(hypernym.get(first)));
         }
+    }
+    private HashMap<String, Integer> sortNumOfAppearances(HashMap<String, Integer> hm) {
+        // Create a list from elements of HashMap
+        List<Map.Entry<String, Integer>> list =
+                new LinkedList<>(hm.entrySet());
+
+        // Sort the list
+        Collections.sort(list, (o1, o2) -> (o2.getValue()).compareTo(o1.getValue()));
+
+        // put data from sorted list to hashmap
+        HashMap<String, Integer> temp = new LinkedHashMap<>();
+        for (Map.Entry<String, Integer> aa : list) {
+            temp.put(aa.getKey(), aa.getValue());
+        }
+        return temp;
     }
     /**
      * get the hypernym hashmap.

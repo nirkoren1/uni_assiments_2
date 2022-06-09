@@ -3,7 +3,6 @@ package ass7;
 //import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import java.util.HashMap;
 
 /**
  * this class Construct a database of hypernym relations.
@@ -27,6 +26,7 @@ public class CreateHypernymDatabase {
      * @param args the arguments
      */
     public static void main(String[] args) {
+        HashMapCreator hmc = new HashMapCreator();
 //        File file = new File("src/ass7/data/corpus");
 //        for(String fileNames : file.list()) System.out.println(fileNames);
         StringBuilder theWholeFile = new StringBuilder();
@@ -39,7 +39,11 @@ public class CreateHypernymDatabase {
         }
         reader.closeFile();
         NpSuchAsNp npSuchAsNp = new NpSuchAsNp();
-        System.out.println(npSuchAsNp.getAllRelations(theWholeFile.toString()).size());
+        hmc.addHypernyms(npSuchAsNp.getAllRelations(theWholeFile.toString()));
+        for (String key: hmc.getHashMap().keySet()) {
+            System.out.println(key + ": " + hmc.getHashMap().get(key));
+        }
+//        System.out.println(npSuchAsNp.getAllRelations(theWholeFile.toString()).size());
 
     }
 }
