@@ -8,7 +8,7 @@ import java.util.regex.Pattern;
 /**
  * this class represents a regex pattern.
  */
-public abstract class RegexPattern {
+public class RegexPattern {
     private String patternString;
     /**
      * constructor.
@@ -24,7 +24,6 @@ public abstract class RegexPattern {
      * @return the list
      */
     public List<String> turnToList(String line) {
-        System.out.println(line);
         List<String> out = new ArrayList<>();
         String[] list = line.split("</np>");
         for (String s : list) {
