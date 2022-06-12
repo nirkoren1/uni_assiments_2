@@ -31,7 +31,7 @@ public class CreateHypernymDatabase {
 //        for(String fileNames : file.list()) System.out.println(fileNames);
         StringBuilder theWholeFile = new StringBuilder();
         Reader reader = new Reader();
-        reader.openFile("src/ass7/data/corpus/mbta.com_mtu.pages_0.possf2");
+        reader.openFile("src/ass7/corpus/mbta.com_mtu.pages_0.possf2");
         String line = reader.readNextLine();
         while (line != null) {
             theWholeFile.append(line);
@@ -43,7 +43,5 @@ public class CreateHypernymDatabase {
         for (String key: hmc.getHashMap().keySet()) {
             System.out.println(key + ": " + hmc.getHashMap().get(key));
         }
-//        System.out.println(npSuchAsNp.getAllRelations(theWholeFile.toString()).size());
-
     }
 }

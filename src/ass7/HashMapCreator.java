@@ -1,6 +1,10 @@
 package ass7;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Map;
 
 /**
  * this class create the HashMap.
@@ -37,13 +41,47 @@ public class HashMapCreator {
             this.hypernym.put(first, sortNumOfAppearances(hypernym.get(first)));
         }
     }
+
+    /**
+     * compare the number of appearances of two words than the two strings.
+     * @param hm the hashmap
+     * @param s1 the first string
+     * @param s2 the second string
+     * @return comparison result
+     */
+    public int compareNumOfAppearancesThanLexicografic(HashMap<String, Integer> hm, String s1, String s2) {
+        int num1 = hm.get(s1);
+        int num2 = hm.get(s2);
+        if (num1 > num2) {
+            return 1;
+        } else if (num1 < num2) {
+            return -1;
+        } else {
+            return compareLexicographically(s2.toLowerCase(), s1.toLowerCase());
+        }
+    }
+
+    /**
+     * compare lexicographically of two strings.
+     * @param s1 the first string
+     * @param s2 the second string
+     * @return int representing the result
+     */
+    public int compareLexicographically(String s1, String s2) {
+        if (s1.compareTo(s2) > 0) {
+            return 1;
+        } else if (s1.compareTo(s2) < 0) {
+            return -1;
+        } else {
+            return 0;
+        }
+    }
     private HashMap<String, Integer> sortNumOfAppearances(HashMap<String, Integer> hm) {
         // Create a list from elements of HashMap
-        List<Map.Entry<String, Integer>> list =
-                new LinkedList<>(hm.entrySet());
+        List<Map.Entry<String, Integer>> list = new LinkedList<>(hm.entrySet());
 
         // Sort the list
-        Collections.sort(list, (o1, o2) -> (o2.getValue()).compareTo(o1.getValue()));
+        list.sort((o1, o2) -> compareNumOfAppearancesThanLexicografic(hm, o2.getKey(), o1.getKey()));
 
         // put data from sorted list to hashmap
         HashMap<String, Integer> temp = new LinkedHashMap<>();
