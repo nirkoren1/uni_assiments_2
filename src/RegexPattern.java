@@ -1,5 +1,4 @@
-package ass7;
-
+// Nir koren 316443902
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -15,7 +14,8 @@ public class RegexPattern {
      * @param prefix the prefix
      */
     public RegexPattern(String prefix) {
-        this.patternString = prefix + "((<np>[\\w ]+</np>)( , <np>[\\w ]+</np>)*(( , )? ?(or|and) ?<np>[\\w ]+</np>)?)+";
+        this.patternString = prefix
+                + "((<np>[\\w ]+</np>)( , <np>[\\w ]+</np>)*(( , )? ?(or|and) ?<np>[\\w ]+</np>)?)+";
     }
 
     /**

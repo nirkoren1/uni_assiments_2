@@ -1,5 +1,4 @@
-package ass7;
-
+// Nir koren 316443902
 import java.io.BufferedInputStream;
 import java.io.DataInputStream;
 import java.io.FileInputStream;

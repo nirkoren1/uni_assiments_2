@@ -1,5 +1,4 @@
-package ass7;
-
+// Nir koren 316443902
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -76,6 +75,12 @@ public class HashMapCreator {
             return 0;
         }
     }
+
+    /**
+     * sort the hashmap by the number of appearances.
+     * @param hm the hashmap
+     * @return the sorted hashmap
+     */
     private HashMap<String, Integer> sortNumOfAppearances(HashMap<String, Integer> hm) {
         // Create a list from elements of HashMap
         List<Map.Entry<String, Integer>> list = new LinkedList<>(hm.entrySet());
@@ -91,10 +96,29 @@ public class HashMapCreator {
         return temp;
     }
     /**
+     * sort the hypernym hashmap.
+     * @param hm the hashmap
+     * @return the sorted hashmap
+     */
+    public HashMap<String, HashMap<String, Integer>> sortAlphabetically(HashMap<String, HashMap<String, Integer>> hm) {
+        // Create a list from elements of HashMap
+        List<Map.Entry<String, HashMap<String, Integer>>> list = new LinkedList<>(hm.entrySet());
+
+        // Sort the list
+        list.sort((o1, o2) -> compareLexicographically(o1.getKey().toLowerCase(), o2.getKey().toLowerCase()));
+
+        // put data from sorted list to hashmap
+        HashMap<String, HashMap<String, Integer>> temp = new LinkedHashMap<>();
+        for (Map.Entry<String, HashMap<String, Integer>> aa : list) {
+            temp.put(aa.getKey(), aa.getValue());
+        }
+        return temp;
+    }
+    /**
      * get the hypernym hashmap.
      * @return the hypernym hashmap
      */
     public HashMap<String, HashMap<String, Integer>> getHashMap() {
-        return hypernym;
+        return sortAlphabetically(hypernym);
     }
 }
