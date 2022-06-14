@@ -19,12 +19,13 @@ public class CreateHypernymDatabase {
      */
     public static void main(String[] args) throws IOException {
         String inputPath = args[0];
-        String outputPath = args[1];
-        patterns.add(new RegexPattern("<np>[\\w ]+</np> such as "));
-        patterns.add(new RegexPattern("such <np>[\\w ]+</np> as "));
-        patterns.add(new RegexPattern("<np>[\\w ]+</np>( ,)? including "));
-        patterns.add(new RegexPattern("<np>[\\w ]+</np>( ,)? especially "));
-        patterns.add(new RegexPattern("<np>[\\w ]+</np>( ,)? which is ((an example|a kind|a class) of )?"));
+        String outputPath = args[1] + "\\hypernym_db.txt";
+        patterns.add(new RegexPattern("<np>[\\w ]+?</np> such as "));
+        patterns.add(new RegexPattern("such <np>[\\w ]+?</np> as "));
+        patterns.add(new RegexPattern("<np>[\\w ]+?</np>( ,)? including "));
+        patterns.add(new RegexPattern("<np>[\\w ]+?</np>( ,)? especially "));
+        patterns.add(new RegexPattern(
+                "<np>[\\w ]+?</np>( ,)? which is ((an example|a kind|a class) of )?<np>[\\w ]+?</np>", true));
         HashMapCreator hmc = new HashMapCreator();
         File file = new File(inputPath);
         for (String fileNames : file.list()) {

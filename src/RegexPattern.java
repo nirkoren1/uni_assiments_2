@@ -9,6 +9,16 @@ import java.util.regex.Pattern;
  */
 public class RegexPattern {
     private String patternString;
+    private boolean isTheLastRegex = false;
+    /**
+     * constructor.
+     * @param prefix the prefix
+     * @param isTheLastRegex special case
+     */
+    public RegexPattern(String prefix, boolean isTheLastRegex) {
+        this.patternString = prefix;
+        this.isTheLastRegex = isTheLastRegex;
+    }
     /**
      * constructor.
      * @param prefix the prefix
@@ -32,6 +42,12 @@ public class RegexPattern {
             while (matcher.find()) {
                 out.add(s.substring(matcher.start() + 4, matcher.end()) + "");
             }
+        }
+        if (isTheLastRegex) {
+            // swap the last two elements
+            String temp = out.get(out.size() - 1);
+            out.set(out.size() - 1, out.get(out.size() - 2));
+            out.set(out.size() - 2, temp);
         }
         return out;
     }

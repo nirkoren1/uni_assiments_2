@@ -17,7 +17,8 @@ import java.util.regex.Pattern;
 public class DiscoverHypernym {
     private static List<String> prefixes = new ArrayList<>();
     private static TreeMap<String, Integer> hypernyms = new TreeMap<>();
-    private static String postfix = "((<np>[\\w ]+</np>)( , <np>[\\w ]+</np>)*(( , )? ?(or|and) ?<np>[\\w ]+</np>)?)+";
+    private static String postfix =
+            "((<np>[\\w ]+?</np>)( , <np>[\\w ]+?</np>)*(( , )? ?(or|and) ?<np>[\\w ]+?</np>)?)+";
     /**
      * compare the number of appearances of two words than the two strings.
      * @param hm the hashmap
@@ -69,9 +70,10 @@ public class DiscoverHypernym {
     /**
      * turnToList.
      * @param line the line
+     * @param specialCase the special case
      * @return the list
      */
-    public static List<String> turnToList(String line) {
+    public static List<String> turnToList(String line, boolean specialCase) {
         List<String> out = new ArrayList<>();
         String[] list = line.split("</np>");
         for (String s : list) {
@@ -80,6 +82,12 @@ public class DiscoverHypernym {
             while (matcher.find()) {
                 out.add(s.substring(matcher.start() + 4, matcher.end()) + "");
             }
+        }
+        if (specialCase) {
+            //swap the first and the last element
+            String temp = out.get(0);
+            out.set(0, out.get(out.size() - 1));
+            out.set(out.size() - 1, temp);
         }
         return out;
     }
@@ -96,20 +104,14 @@ public class DiscoverHypernym {
             lemmaB.append(args[i]);
         }
         String lemma = lemmaB.toString();
-        postfix = postfix.replace("[\\w ]+", "([\\w ]+|" + lemma + ")");
-        prefixes.add("<np>[\\w ]+</np> such as ");
-        prefixes.add("such <np>[\\w ]+</np> as ");
-        prefixes.add("<np>[\\w ]+</np>( ,)? including ");
-        prefixes.add("<np>[\\w ]+</np>( ,)? especially ");
-        prefixes.add("<np>[\\w ]+</np>( ,)? which is ((an example|a kind|a class) of )?");
-        HashMapCreator hmc = new HashMapCreator();
+        postfix = postfix.replace("[\\w ]+?", "([\\w ]+?|" + lemma + ")");
+        prefixes.add("<np>[\\w ]+?</np> such as ");
+        prefixes.add("such <np>[\\w ]+?</np> as ");
+        prefixes.add("<np>[\\w ]+?</np>( ,)? including ");
+        prefixes.add("<np>[\\w ]+?</np>( ,)? especially ");
+        prefixes.add("<np>[\\w ]+?</np>( ,)? which is ((an example|a kind|a class) of )?<np>[\\w ]+?</np>");
         File file = new File(inputPath);
-        int i = 0;
         for (String fileNames : file.list()) {
-            i++;
-            if (i == 6) {
-                break;
-            }
             System.out.println(fileNames);
             String fileName = inputPath + "/" + fileNames;
             StringBuilder theWholeFile = new StringBuilder();
@@ -123,10 +125,16 @@ public class DiscoverHypernym {
             reader.closeFile();
             String text = theWholeFile.toString();
             for (String prefix :prefixes) {
-                Pattern pattern = Pattern.compile(prefix + postfix);
+                Pattern pattern;
+                if (prefixes.indexOf(prefix) == 4) {
+                    pattern = Pattern.compile(prefix);
+                } else {
+                    pattern = Pattern.compile(prefix + postfix);
+                }
                 Matcher matcher = pattern.matcher(text);
                 while (matcher.find()) {
-                    List<String> allRelations = turnToList(text.substring(matcher.start(), matcher.end()));
+                    List<String> allRelations = turnToList(text.substring(matcher.start(), matcher.end()),
+                            prefixes.indexOf(prefix) == 4);
                     if (hypernyms.containsKey(allRelations.get(0))) {
                         hypernyms.put(allRelations.get(0), hypernyms.get(allRelations.get(0)) + 1);
                     } else {
