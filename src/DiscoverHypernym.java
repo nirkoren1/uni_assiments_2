@@ -1,7 +1,11 @@
 // Nir koren 316443902
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.TreeMap;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -14,6 +18,53 @@ public class DiscoverHypernym {
     private static List<String> prefixes = new ArrayList<>();
     private static TreeMap<String, Integer> hypernyms = new TreeMap<>();
     private static String postfix = "((<np>[\\w ]+</np>)( , <np>[\\w ]+</np>)*(( , )? ?(or|and) ?<np>[\\w ]+</np>)?)+";
+    /**
+     * compare the number of appearances of two words than the two strings.
+     * @param hm the hashmap
+     * @param s1 the first string
+     * @param s2 the second string
+     * @return comparison result
+     */
+    public static int compareNumOfAppearancesThanLexicografic(TreeMap<String, Integer> hm, String s1, String s2) {
+        int num1 = hm.get(s1);
+        int num2 = hm.get(s2);
+        if (num1 > num2) {
+            return 1;
+        } else if (num1 < num2) {
+            return -1;
+        } else {
+            return compareLexicographically(s2.toLowerCase(), s1.toLowerCase());
+        }
+    }
+    /**
+     * compare the lexicographically of two strings.
+     * @param s1 the first string
+     * @param s2 the second string
+     * @return comparison result
+     */
+    public static int compareLexicographically(String s1, String s2) {
+        if (s1.compareTo(s2) > 0) {
+            return 1;
+        } else if (s1.compareTo(s2) < 0) {
+            return -1;
+        } else {
+            return 0;
+        }
+    }
+    private static HashMap<String, Integer> valueSort(TreeMap<String, Integer> hm) {
+        // Create a list from elements of HashMap
+        List<Map.Entry<String, Integer>> list = new LinkedList<>(hm.entrySet());
+
+        // Sort the list
+        list.sort((o1, o2) -> compareNumOfAppearancesThanLexicografic(hm, o2.getKey(), o1.getKey()));
+
+        // put data from sorted list to hashmap
+        HashMap<String, Integer> temp = new LinkedHashMap<>();
+        for (Map.Entry<String, Integer> aa : list) {
+            temp.put(aa.getKey(), aa.getValue());
+        }
+        return temp;
+    }
 
     /**
      * turnToList.
@@ -53,7 +104,13 @@ public class DiscoverHypernym {
         prefixes.add("<np>[\\w ]+</np>( ,)? which is ((an example|a kind|a class) of )?");
         HashMapCreator hmc = new HashMapCreator();
         File file = new File(inputPath);
+        int i = 0;
         for (String fileNames : file.list()) {
+            i++;
+            if (i == 6) {
+                break;
+            }
+            System.out.println(fileNames);
             String fileName = inputPath + "/" + fileNames;
             StringBuilder theWholeFile = new StringBuilder();
             Reader reader = new Reader();
@@ -78,8 +135,13 @@ public class DiscoverHypernym {
                 }
             }
         }
-        for (String key: hypernyms.keySet()) {
-            System.out.println(key + ": (" + hypernyms.get(key) + ")");
+        if (hypernyms.size() == 0) {
+            System.out.println("The lemma doesn't appear in the corpus.");
+            return;
+        }
+        HashMap<String, Integer> hypernymsSorted = valueSort(hypernyms);
+        for (String key: hypernymsSorted.keySet()) {
+            System.out.println(key + ": (" + hypernymsSorted.get(key) + ")");
         }
     }
 }
