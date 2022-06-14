@@ -29,21 +29,23 @@ public class CreateHypernymDatabase {
         HashMapCreator hmc = new HashMapCreator();
         File file = new File(inputPath);
         for (String fileNames : file.list()) {
+            System.out.println(fileNames);
             String fileName = inputPath + "/" + fileNames;
-            StringBuilder theWholeFile = new StringBuilder();
             Reader reader = new Reader();
             reader.openFile(fileName);
             String line = reader.readNextLine();
             while (line != null) {
-                theWholeFile.append(line);
+                if (line.contains("such") || line.contains("including ")
+                        || line.contains("especially ") || line.contains("which is ")) {
+                    for (RegexPattern pattern :patterns) {
+                        hmc.addHypernyms(pattern.getAllRelations(line));
+                    }
+                }
                 line = reader.readNextLine();
             }
             reader.closeFile();
-            for (RegexPattern pattern :patterns) {
-                hmc.addHypernyms(pattern.getAllRelations(theWholeFile.toString()));
-            }
         }
-        // create the output file
+        // create the output file3
         FileOutputStream out = null;
         HashMap<String, HashMap<String, Integer>> hm = hmc.getHashMap();
         try {

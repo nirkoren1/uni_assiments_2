@@ -91,6 +91,26 @@ public class DiscoverHypernym {
         }
         return out;
     }
+    public static void addLine(String line) {
+        for (String prefix :prefixes) {
+            Pattern pattern;
+            if (prefixes.indexOf(prefix) == 4) {
+                pattern = Pattern.compile(prefix);
+            } else {
+                pattern = Pattern.compile(prefix + postfix);
+            }
+            Matcher matcher = pattern.matcher(line);
+            while (matcher.find()) {
+                List<String> allRelations = turnToList(line.substring(matcher.start(), matcher.end()),
+                        prefixes.indexOf(prefix) == 4);
+                if (hypernyms.containsKey(allRelations.get(0))) {
+                    hypernyms.put(allRelations.get(0), hypernyms.get(allRelations.get(0)) + 1);
+                } else {
+                    hypernyms.put(allRelations.get(0), 1);
+                }
+            }
+        }
+    }
     /**
      * main method.
      * @param args the arguments
@@ -109,39 +129,45 @@ public class DiscoverHypernym {
         prefixes.add("such <np>[\\w ]+?</np> as ");
         prefixes.add("<np>[\\w ]+?</np>( ,)? including ");
         prefixes.add("<np>[\\w ]+?</np>( ,)? especially ");
-        prefixes.add("<np>[\\w ]+?</np>( ,)? which is ((an example|a kind|a class) of )?<np>[\\w ]+?</np>");
+        prefixes.add("<np>([\\w ]+?|" + lemma + ")</np>( ,)? which is ((an example|a kind|a class) of )?<np>[\\w ]+?</np>");
         File file = new File(inputPath);
         for (String fileNames : file.list()) {
             System.out.println(fileNames);
             String fileName = inputPath + "/" + fileNames;
-            StringBuilder theWholeFile = new StringBuilder();
+//            StringBuilder theWholeFile = new StringBuilder();
             Reader reader = new Reader();
             reader.openFile(fileName);
             String line = reader.readNextLine();
             while (line != null) {
-                theWholeFile.append(line);
+//                theWholeFile.append(line);
+                if (line.contains("<np>" + lemma + "</np>")) {
+                    if (line.contains("such") || line.contains("including ")
+                            || line.contains("especially ") || line.contains("which is ")) {
+                        addLine(line);
+                    }
+                }
                 line = reader.readNextLine();
             }
             reader.closeFile();
-            String text = theWholeFile.toString();
-            for (String prefix :prefixes) {
-                Pattern pattern;
-                if (prefixes.indexOf(prefix) == 4) {
-                    pattern = Pattern.compile(prefix);
-                } else {
-                    pattern = Pattern.compile(prefix + postfix);
-                }
-                Matcher matcher = pattern.matcher(text);
-                while (matcher.find()) {
-                    List<String> allRelations = turnToList(text.substring(matcher.start(), matcher.end()),
-                            prefixes.indexOf(prefix) == 4);
-                    if (hypernyms.containsKey(allRelations.get(0))) {
-                        hypernyms.put(allRelations.get(0), hypernyms.get(allRelations.get(0)) + 1);
-                    } else {
-                        hypernyms.put(allRelations.get(0), 1);
-                    }
-                }
-            }
+//            String text = theWholeFile.toString();
+//            for (String prefix :prefix00es) {
+//                Pattern pattern;
+//                if (prefixes.indexOf(prefix) == 4) {
+//                    pattern = Pattern.compile(prefix);
+//                } else {
+//                    pattern = Pattern.compile(prefix + postfix);
+//                }
+//                Matcher matcher = pattern.matcher(text);
+//                while (matcher.find()) {
+//                    List<String> allRelations = turnToList(text.substring(matcher.start(), matcher.end()),
+//                            prefixes.indexOf(prefix) == 4);
+//                    if (hypernyms.containsKey(allRelations.get(0))) {
+//                        hypernyms.put(allRelations.get(0), hypernyms.get(allRelations.get(0)) + 1);
+//                    } else {
+//                        hypernyms.put(allRelations.get(0), 1);
+//                    }
+//                }
+//            }
         }
         if (hypernyms.size() == 0) {
             System.out.println("The lemma doesn't appear in the corpus.");
